@@ -9,6 +9,9 @@ public abstract class Producto
     public int NumeroCompras { get; set; }
     public bool EsComercioJusto { get; private set; }
 
+
+    public Producto() { }
+
     // Constructor para crear un nuevo producto
     public Producto(decimal precio, int cantidadStock, bool esComercioJusto)
     {
@@ -33,7 +36,7 @@ public abstract class Producto
         }
     }
 
-    public abstract void SumarStock(int numero);
-    public abstract void RestarStock(int numero);
-    public abstract void MostrarInformacion();
+    // public abstract void SumarStock(int numero);
+    // public abstract void RestarStock(int numero);
+    // public abstract void MostrarInformacion();
 }
