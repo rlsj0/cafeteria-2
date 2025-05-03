@@ -4,8 +4,8 @@ namespace Models;
 
 public class Cafe : Producto
 {
-    public string Variedad { get; set; }
-    public string Tipo { get; set; }
+    public string? Variedad { get; set; }
+    public string? Tipo { get; set; }
 
     public Cafe() { }
 
