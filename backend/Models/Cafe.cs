@@ -1,21 +1,23 @@
 using System.Text.Json.Serialization;
 
-namespace Models;
+namespace CafeteriaApp.Models;
 
-public class Cafe : Producto
+public class Cafe : Models.Producto
 {
-    public string Variedad { get; set; }
-    public string Tipo { get; set; }
+    public string? Variedad { get; set; }
+    public string? Tipo { get; set; }
 
     public Cafe() { }
 
     // Constructor para crear un nuevo cafe
     public Cafe(decimal precio,
                 int cantidadStock,
+                int numeroCompras,
                 bool esComercioJusto,
                 string variedad,
                 string tipo) : base(precio,
                                     cantidadStock,
+                                    numeroCompras,
                                     esComercioJusto)
     {
         Variedad = variedad;

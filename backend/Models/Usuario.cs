@@ -1,7 +1,7 @@
 // using System.Security.Cryptography;
 // using System.Text;
 
-namespace Models;
+namespace CafeteriaApp.Models;
 
 public class Usuario
 {
