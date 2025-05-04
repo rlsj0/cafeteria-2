@@ -1,4 +1,4 @@
-namespace Models;
+namespace CafeteriaApp.Models;
 
 public static class Roles
 {

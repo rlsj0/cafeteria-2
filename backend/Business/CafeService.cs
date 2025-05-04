@@ -1,7 +1,7 @@
 using Models;
 using Data;
 
-namespace Business;
+namespace CafeteriaApp.Business;
 
 public class CafeService : ICafeService
 {

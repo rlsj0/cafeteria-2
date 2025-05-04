@@ -1,9 +1,8 @@
-namespace Data;
+namespace CafeteriaApp.Data;
 
 public interface ICafeRepository
 {
 
-    public readonly
 
 }
 

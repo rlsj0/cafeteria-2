@@ -1,6 +1,6 @@
 using Models;
 
-namespace Business;
+namespace CafeteriaApp.Business;
 
 public interface ICafeService
 {

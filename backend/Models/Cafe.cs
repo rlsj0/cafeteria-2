@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Models;
+namespace CafeteriaApp.Models;
 
 public class Cafe : Producto
 {
