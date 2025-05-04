@@ -9,7 +9,7 @@ public interface ICafeService
 
     // Read
     public IEnumerable<Cafe> GetAllCafes();
-    public Cafe GetAllCafeById(int id);
+    public Cafe GetCafeById(int id);
 
     // Update
     public void UpdateCafe(int id, CafeCreateDto cafe);

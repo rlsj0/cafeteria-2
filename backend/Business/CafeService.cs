@@ -36,7 +36,7 @@ public class CafeService : ICafeService
         return _repository.GetAllCafes();
     }
 
-    public Cafe GetAllCafeById(int id)
+    public Cafe GetCafeById(int id)
     {
         var cafe = _repository.GetCafe(id);
         if (cafe == null)
@@ -63,7 +63,9 @@ public class CafeService : ICafeService
         cafe.Tipo = crearCafe.Tipo;
         // Id y NumeroCompras  no se modifican
 
-        _repository.UpdateCafe(cafe);
+        // Como hemos cogido a "cafe" del contexto, al modificarlo aquí
+        // lo modificamos en la tabla. No hace falta:
+        //_repository.UpdateCafe(cafe);
         _repository.SaveChanges();
     }
 
