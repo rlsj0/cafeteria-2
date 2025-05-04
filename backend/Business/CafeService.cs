@@ -56,11 +56,11 @@ public class CafeService : ICafeService
             throw new KeyNotFoundException($"No hay cafés con el id {id}");
         }
 
-        cafe.Precio = crearCafe.Precio,
-        cafe.CantidadStock = crearCafe.CantidadStock,
-        cafe.EsComercioJusto = crearCafe.EsComercioJusto,
-        cafe.Variedad = crearCafe.Variedad,
-        cafe.Tipo = crearCafe.Tipo,
+        cafe.Precio = crearCafe.Precio;
+        cafe.CantidadStock = crearCafe.CantidadStock;
+        cafe.EsComercioJusto = crearCafe.EsComercioJusto;
+        cafe.Variedad = crearCafe.Variedad;
+        cafe.Tipo = crearCafe.Tipo;
         // Id y NumeroCompras  no se modifican
 
         _repository.UpdateCafe(cafe);
