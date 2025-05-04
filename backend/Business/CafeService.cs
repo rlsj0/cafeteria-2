@@ -1,8 +1,9 @@
 using Models;
+using Data;
 
 namespace Business;
 
-public class CafeService : ICafeSerivce
+public class CafeService : ICafeService
 {
     private readonly ICafeRepository _repository;
 

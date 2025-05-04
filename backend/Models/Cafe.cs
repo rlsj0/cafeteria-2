@@ -10,14 +10,12 @@ public class Cafe : Producto
     public Cafe() { }
 
     // Constructor para crear un nuevo cafe
-    public Cafe(int id,
-                decimal precio,
+    public Cafe(decimal precio,
                 int cantidadStock,
                 int numeroCompras,
                 bool esComercioJusto,
                 string variedad,
-                string tipo) : base(id,
-                                    precio,
+                string tipo) : base(precio,
                                     cantidadStock,
                                     numeroCompras,
                                     esComercioJusto)

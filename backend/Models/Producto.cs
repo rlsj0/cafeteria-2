@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Models;
 
 public abstract class Producto
 {
+    [Key]
     public int Id { get; set; }
     public decimal Precio { get; set; }
     public int CantidadStock { get; set; }
@@ -22,9 +25,12 @@ public abstract class Producto
     // }
     //
 
-    public Producto(int id, decimal precio, int cantidadStock, int numeroCompras, bool esComercioJusto)
+    // No hace falta que el pase el ID, ya se encarga EF de crearlo
+    public Producto(decimal precio,
+                    int cantidadStock,
+                    int numeroCompras,
+                    bool esComercioJusto)
     {
-        Id = id;
         Precio = precio;
         CantidadStock = cantidadStock;
         NumeroCompras = numeroCompras;
