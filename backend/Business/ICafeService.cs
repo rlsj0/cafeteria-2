@@ -5,7 +5,7 @@ namespace Business;
 public interface ICafeService
 {
     // Create
-    public void CreateCafe(CafeCreateDto cafe);
+    public Cafe CreateCafe(CafeCreateDto cafe);
 
     // Read
     public IEnumerable<Cafe> GetAllCafes();
