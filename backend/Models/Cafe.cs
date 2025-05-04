@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace CafeteriaApp.Models;
 
-public class Cafe : Producto
+public class Cafe : Models.Producto
 {
     public string? Variedad { get; set; }
     public string? Tipo { get; set; }

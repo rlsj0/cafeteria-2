@@ -1,7 +1,9 @@
 using CafeteriaApp.Business;
+using CafeteriaApp.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // TODO: uno de estos por servicio
 builder.Services.AddScoped<ICafeService, CafeService>();
 
@@ -16,7 +18,7 @@ builder.Services.AddDbContext<CafeteriaAppContext>(options =>
 
 // Relacionamos la implementacion e interfaz del repositorio
 // TODO: uno de estos por repositorio
-builder.Services.AddScoped<ICafeRepository, CafeEFRepository>();
+builder.Services.AddScoped<ICafeRepository, CafeRepository>();
 
 // Add services to the container.
 

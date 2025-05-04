@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Models\CafeteriaApp.Models.csproj" />
+    <ProjectReference Include="..\Data\CafeteriaApp.Data.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

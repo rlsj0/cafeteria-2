@@ -1,8 +1,8 @@
-using Models;
+using CafeteriaApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Data;
+namespace CafeteriaApp.Data;
 
 public class CafeteriaAppContext : DbContext
 {

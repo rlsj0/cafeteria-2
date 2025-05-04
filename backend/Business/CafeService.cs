@@ -1,5 +1,5 @@
-using Models;
-using Data;
+using CafeteriaApp.Models;
+using CafeteriaApp.Data;
 
 namespace CafeteriaApp.Business;
 
@@ -15,8 +15,10 @@ public class CafeService : ICafeService
     // Create
     public Cafe CreateCafe(CafeCreateDto cafe)
     {
+        var numeroCompras = 0;
         var nuevoCafe = new Cafe(cafe.Precio,
                                  cafe.CantidadStock,
+                                 numeroCompras,
                                  cafe.EsComercioJusto,
                                  cafe.Variedad,
                                  cafe.Tipo);
@@ -45,14 +47,21 @@ public class CafeService : ICafeService
     }
 
     // Update
-    public void UpdateCafe(int id, CafeCreateDto cafe)
+    public void UpdateCafe(int id, CafeCreateDto crearCafe)
     {
-        var account = _repository.GetAccount(id);
+        var cafe = _repository.GetCafe(id);
 
-        if (account == null)
+        if (cafe == null)
         {
             throw new KeyNotFoundException($"No hay cafés con el id {id}");
         }
+
+        cafe.Precio = crearCafe.Precio,
+        cafe.CantidadStock = crearCafe.CantidadStock,
+        cafe.EsComercioJusto = crearCafe.EsComercioJusto,
+        cafe.Variedad = crearCafe.Variedad,
+        cafe.Tipo = crearCafe.Tipo,
+        // Id y NumeroCompras  no se modifican
 
         _repository.UpdateCafe(cafe);
         _repository.SaveChanges();
@@ -61,8 +70,8 @@ public class CafeService : ICafeService
     // Delete
     public void DeleteCafe(int id)
     {
-        var account = _repository.GetAccount(id);
-        if (account == null)
+        var cafe = _repository.GetCafe(id);
+        if (cafe == null)
         {
             throw new KeyNotFoundException($"No hay cafés con el id {id}");
         }
