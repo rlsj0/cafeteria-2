@@ -24,7 +24,8 @@ public class UserRepository : IUserRepository
         {
             Correo = correo,
             HashContrasena = hash,
-            SaltContrasena = salt
+            SaltContrasena = salt,
+            Rol = Roles.Cliente
         };
 
         _context.Add(user);

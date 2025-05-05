@@ -25,6 +25,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // TODO: uno de estos por servicio
 builder.Services.AddScoped<ICafeService, CafeService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // TODO: crear cadena de conexión en appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("ServerDB_localhost");
@@ -38,6 +39,7 @@ builder.Services.AddDbContext<CafeteriaAppContext>(options =>
 // Relacionamos la implementacion e interfaz del repositorio
 // TODO: uno de estos por repositorio
 builder.Services.AddScoped<ICafeRepository, CafeRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add services to the container.
 
