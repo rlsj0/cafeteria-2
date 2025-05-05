@@ -27,7 +27,15 @@ public class AuthService : IAuthService
         var salt = GenerateSalt();
         var hash = HashPassword(usuarioCreateDto.Contrasena, salt);
         var user = _repository.AddUserFromCredentials(correo, hash, salt);
-        return GenerateToken(user);
+
+        var userRead = new UsuarioReadDto()
+        {
+            Id = user.Id,
+            Correo = user.Correo,
+            Rol = user.Rol
+        };
+
+        return GenerateToken(userRead);
     }
 
     public string Login(UsuarioCreateDto usuarioCreateDto)
@@ -47,7 +55,14 @@ public class AuthService : IAuthService
             throw new UnauthorizedAccessException("Correo o contraseña incorrectos");
         }
 
-        return GenerateToken(usuario);
+        var userRead = new UsuarioReadDto()
+        {
+            Id = usuario.Id,
+            Correo = usuario.Correo,
+            Rol = usuario.Rol
+        };
+
+        return GenerateToken(userRead);
     }
 
     public byte[] GenerateSalt()
@@ -96,7 +111,7 @@ public class AuthService : IAuthService
     public bool VerificarAcceso(int id, ClaimsPrincipal user)
     {
         var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        if (userIdClaim is null || !int.TryParse(userIdClaim.Value, out int userId)
+        if (userIdClaim is null || !int.TryParse(userIdClaim.Value, out int userId))
         {
             return false;
         }
