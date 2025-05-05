@@ -1,28 +1,24 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace CafeteriaApp.Models;
 
-public class Cafe : Models.Producto
+public class Cafe //: Producto
 {
+
+    [Key]
+    public int Id { get; set; }
+    public decimal Precio { get; set; }
+    public int CantidadStock { get; set; }
+    public int NumeroCompras { get; set; }
+    public bool EsComercioJusto { get; set; }
     public string? Variedad { get; set; }
     public string? Tipo { get; set; }
 
     public Cafe() { }
 
     // Constructor para crear un nuevo cafe
-    public Cafe(decimal precio,
-                int cantidadStock,
-                int numeroCompras,
-                bool esComercioJusto,
-                string variedad,
-                string tipo) : base(precio,
-                                    cantidadStock,
-                                    numeroCompras,
-                                    esComercioJusto)
-    {
-        Variedad = variedad;
-        Tipo = tipo;
-    }
+
     //
     // // Constructor para recuperar los datos del .json
     // [JsonConstructor]

@@ -16,12 +16,15 @@ public class CafeService : ICafeService
     public Cafe CreateCafe(CafeCreateDto cafe)
     {
         var numeroCompras = 0;
-        var nuevoCafe = new Cafe(cafe.Precio,
-                                 cafe.CantidadStock,
-                                 numeroCompras,
-                                 cafe.EsComercioJusto,
-                                 cafe.Variedad,
-                                 cafe.Tipo);
+        var nuevoCafe = new Cafe
+        {
+            Precio = cafe.Precio,
+            CantidadStock = cafe.CantidadStock,
+            NumeroCompras = numeroCompras,
+            EsComercioJusto = cafe.EsComercioJusto,
+            Variedad = cafe.Variedad,
+            Tipo = cafe.Tipo
+        };
         // TODO: añadir en repositorio la movida del id
         _repository.AddCafe(nuevoCafe);
         _repository.SaveChanges();

@@ -20,7 +20,7 @@ public class PedidoRepository : IPedidoRepository
     public IEnumerable<Pedido> GetAllPedidos()
     {
         var result = _context.Pedidos.Include(p => p.PedidoDetalles)
-                                     .ThenInclude(pd => pd.Producto)
+                                     .ThenInclude(pd => pd.Cafe)
                                      .Include(p => p.Usuario)
                                      .ToList();
 
@@ -36,7 +36,7 @@ public class PedidoRepository : IPedidoRepository
     public Pedido GetPedidoById(int id)
     {
         var pedidos = _context.Pedidos.Include(p => p.PedidoDetalles)
-            .ThenInclude(pd => pd.Producto)
+            .ThenInclude(pd => pd.Cafe)
             .Include(p => p.Usuario);
 
         var pedido = pedidos.FirstOrDefault(pedido => pedido.Id == id);
@@ -52,7 +52,7 @@ public class PedidoRepository : IPedidoRepository
     public IEnumerable<Pedido> GetPedidoByUserId(int userId)
     {
         var pedidos = _context.Pedidos.Include(p => p.PedidoDetalles)
-                                      .ThenInclude(pd => pd.Producto)
+                                      .ThenInclude(pd => pd.Cafe)
                                       .Include(p => p.Usuario)
                                       .Where(pedido => pedido.UsuarioId == userId);
 
