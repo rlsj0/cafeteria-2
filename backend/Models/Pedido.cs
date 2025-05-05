@@ -1,34 +1,46 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace CafeteriaApp.Models;
 
 public class Pedido
 {
+    [Key]
     public int Id { get; set; }
-    public static int nextId { get; set; }
-    public int IdCliente { get; set; }
-    // public List<Tuple<Cafe, int>> Productos { get; set; }
+
+    [ForeignKey("Usuario")]
+    public int UsuarioId { get; set; }
+
+    public Usuario Usuario { get; set; }
+
+    public ICollection<PedidoDetalle> PedidoDetalles { get; set; }
+
     public decimal PrecioTotal { get; set; }
+
     public DateTime Fecha { get; set; }
+
     public bool ClienteSatisfecho { get; set; }
 
-    public Pedido() { }
-
-    public Pedido(int id,
-                  int idCliente,
-                  // List<Tuple<Cafe, int>> productos,
-                  decimal precioTotal,
-                  DateTime fecha,
-                  bool clienteSatisfecho)
+    public Pedido()
     {
-        Id = id;
-        IdCliente = idCliente;
-        // Productos = productos;
-        PrecioTotal = precioTotal;
-        Fecha = fecha;
-        ClienteSatisfecho = clienteSatisfecho;
+        PedidoDetalles = new List<PedidoDetalle>();
     }
 
+    // Igual no hace falta constructor
+    // public Pedido(Usuario usuario,
+    //               decimal precioTotal,
+    //               DateTime fecha,
+    //               bool clienteSatisfecho)
+    // {
+    //     Usuario = usuario;
+    //     UsuarioId = usuario.Id;
+    //     // Productos = productos;
+    //     PrecioTotal = precioTotal;
+    //     Fecha = fecha;
+    //     ClienteSatisfecho = clienteSatisfecho;
+    // }
+    //
     // Constructor para crear nuevo pedido
     // public Pedido(int idCliente, List<Tuple<Cafe, int>> productos, bool clienteSatisfecho)
     // {
