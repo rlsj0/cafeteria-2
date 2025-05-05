@@ -2,7 +2,7 @@ using CafeteriaApp.Business;
 using CafeteriaApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CafeteriaApp.Controllers;
+namespace CafeteriaApp.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
