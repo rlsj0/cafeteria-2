@@ -1,4 +1,5 @@
 using CafeteriaApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CafeteriaApp.Data;
 
@@ -19,9 +20,9 @@ public class PedidoRepository : IPedidoRepository
     public IEnumerable<Pedido> GetAllPedidos()
     {
         var result = _context.Pedidos.Include(p => p.PedidoDetalles)
-            .ThenInclude(pd => pdf.Cafe)
-            .Include(p => p.Usuario)
-            .ToList();
+                                     .ThenInclude(pd => pd.Producto)
+                                     .Include(p => p.Usuario)
+                                     .ToList();
 
         // var query = _context.Pedidos.AsQueryable();
 
@@ -35,7 +36,7 @@ public class PedidoRepository : IPedidoRepository
     public Pedido GetPedidoById(int id)
     {
         var pedidos = _context.Pedidos.Include(p => p.PedidoDetalles)
-            .ThenInclude(pd => pdf.Cafe)
+            .ThenInclude(pd => pd.Producto)
             .Include(p => p.Usuario);
 
         var pedido = pedidos.FirstOrDefault(pedido => pedido.Id == id);
@@ -51,7 +52,7 @@ public class PedidoRepository : IPedidoRepository
     public IEnumerable<Pedido> GetPedidoByUserId(int userId)
     {
         var pedidos = _context.Pedidos.Include(p => p.PedidoDetalles)
-                                      .ThenInclude(pd => pdf.Cafe)
+                                      .ThenInclude(pd => pd.Producto)
                                       .Include(p => p.Usuario)
                                       .Where(pedido => pedido.UsuarioId == userId);
 

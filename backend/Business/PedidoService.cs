@@ -1,3 +1,4 @@
+using CafeteriaApp.Data;
 using CafeteriaApp.Models;
 
 namespace CafeteriaApp.Business;
@@ -19,7 +20,7 @@ public class PedidoService : IPedidoService
             UsuarioId = pedidoCreateDto.usuario.Id,
             PedidoDetalles = pedidoCreateDto.PedidoDetalles,
             ClienteSatisfecho = pedidoCreateDto.ClienteSatisfecho
-        }
+        };
         _repository.AddPedido(pedido);
         _repository.SaveChanges();
         return pedido;
