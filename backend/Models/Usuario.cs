@@ -1,13 +1,12 @@
-// using System.Security.Cryptography;
-// using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace CafeteriaApp.Models;
 
 public class Usuario
 {
 
+    [Key]
     public int Id { get; set; }
-    public static int nextId { get; set; } = 0;
     public string Correo { get; set; }
     public string HashContrasena { get; set; }
     public byte[] SaltContrasena { get; set; }
@@ -17,18 +16,6 @@ public class Usuario
 
     // Constructor vacio
     public Usuario() { }
-
-    // Constructor para la creación de nuevo usuario
-    // public Usuario(string correo, string contrasena, string rol)
-    // {
-    //     Id = ++nextId;
-    //     Correo = correo;
-    //     Rol = rol;
-    //
-    //     SaltContrasena = RandomNumberGenerator.GetBytes(64);
-    //     HashContrasena = GenerarHash(contrasena);
-    //     FechaCreacion = DateTime.Now;
-    // }
 
     // Constructor entero
     public Usuario(int id, string correo, string hashContrasena, byte[] saltContrasena, DateTime fechaCreacion, String rol, List<Pedido> historicoPedidos)
@@ -40,11 +27,6 @@ public class Usuario
         FechaCreacion = fechaCreacion;
         Rol = rol;
         HistoricoPedidos = historicoPedidos;
-
-        if (nextId <= id)
-        {
-            nextId = id;
-        }
     }
     // Crear un hash a partir de la contrasena usando `Rfc2898DeriveBytes`
     // Referencia: https://code-maze.com/csharp-hashing-salting-passwords-best-practices/

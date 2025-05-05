@@ -25,7 +25,7 @@ public class CafeService : ICafeService
         // TODO: añadir en repositorio la movida del id
         _repository.AddCafe(nuevoCafe);
         _repository.SaveChanges();
-        // TODO: ojo porque se está devolviendo un cafe sin id
+        // No se devuelve un café sin ID, porque se devuelve el objeto del repositorio
         return nuevoCafe;
     }
 

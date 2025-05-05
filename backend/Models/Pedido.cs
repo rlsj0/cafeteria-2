@@ -7,7 +7,7 @@ public class Pedido
     public int Id { get; set; }
     public static int nextId { get; set; }
     public int IdCliente { get; set; }
-    public List<Tuple<Cafe, int>> Productos { get; set; }
+    // public List<Tuple<Cafe, int>> Productos { get; set; }
     public decimal PrecioTotal { get; set; }
     public DateTime Fecha { get; set; }
     public bool ClienteSatisfecho { get; set; }
@@ -16,14 +16,14 @@ public class Pedido
 
     public Pedido(int id,
                   int idCliente,
-                  List<Tuple<Cafe, int>> productos,
+                  // List<Tuple<Cafe, int>> productos,
                   decimal precioTotal,
                   DateTime fecha,
                   bool clienteSatisfecho)
     {
         Id = id;
         IdCliente = idCliente;
-        Productos = productos;
+        // Productos = productos;
         PrecioTotal = precioTotal;
         Fecha = fecha;
         ClienteSatisfecho = clienteSatisfecho;
