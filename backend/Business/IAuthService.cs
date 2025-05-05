@@ -10,6 +10,6 @@ public interface IAuthService
     public byte[] GenerateSalt();
     public string HashPassword(string contrasena, byte[] salt);
     public string GenerateToken(UsuarioReadDto usuarioReadDto);
-    public bool VerificarAcceso(int id, ClaimsPrincipal user)Claim);
+    public bool VerificarAcceso(int id, ClaimsPrincipal user);
 }
 
