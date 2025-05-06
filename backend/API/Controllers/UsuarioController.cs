@@ -25,7 +25,7 @@ public class UsuarioController : ControllerBase
 
     [Authorize]
     [HttpGet(Name = "GetAllUsuarios")]
-    public ActionResult<IEnumerable<Usuario>> GetAllUsuarios()
+    public ActionResult<IEnumerable<UsuarioReadDto>> GetAllUsuarios([FromQuery] UsuarioQueryParameteres query)
     {
         if (!ModelState.IsValid)
         {
@@ -39,7 +39,7 @@ public class UsuarioController : ControllerBase
 
         try
         {
-            var usuarios = _usuarioService.GetAllUsuarios();
+            var usuarios = _usuarioService.GetAllUsuarios(query);
             return Ok(usuarios);
         }
         catch (Exception ex)

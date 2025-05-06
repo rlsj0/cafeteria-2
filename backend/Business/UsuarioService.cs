@@ -27,14 +27,15 @@ public class UsuarioService : IUsuarioService
         return claimValue == Roles.Admin;
     }
 
-    public IEnumerable<UsuarioReadDto> GetAllUsuarios()
+    public IEnumerable<UsuarioReadDto> GetAllUsuarios(UsuarioQueryParameteres query)
     {
         // Select es el equivalente en C# a map
-        var listaDto = _repository.GetUsuarios().Select(usuario => new UsuarioReadDto
+        var listaDto = _repository.GetUsuarios(query).Select(usuario => new UsuarioReadDto
         {
             Id = usuario.Id,
             Correo = usuario.Correo,
-            Rol = usuario.Rol
+            Rol = usuario.Rol,
+            Fecha = usuario.FechaCreacion
         });
         return listaDto;
     }
@@ -51,7 +52,8 @@ public class UsuarioService : IUsuarioService
         {
             Id = usuario.Id,
             Correo = usuario.Correo,
-            Rol = usuario.Rol
+            Rol = usuario.Rol,
+            Fecha = usuario.FechaCreacion
         };
 
         return usuarioDto;
