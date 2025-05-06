@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using CafeteriaApp.Business;
 using CafeteriaApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeteriaApp.API.Controllers;
@@ -55,6 +57,31 @@ public class PedidoController : ControllerBase
         catch (KeyNotFoundException)
         {
             return NotFound($"El pedido de id {id} no existe");
+        }
+    }
+
+    [Authorize]
+    [HttpPost(Name = "HacerPedido")]
+    public IActionResult HacerPedido(PedidoCreateDto pedidoCreateDto)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Cogiendo id del JWT
+            var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var pedido = _pedidoService.CreatePedido(pedidoCreateDto);
+
+            return Ok(pedido.Id);
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }

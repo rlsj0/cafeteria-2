@@ -43,12 +43,22 @@ public class PedidoService : IPedidoService
         return pedido;
     }
 
-    public IEnumerable<Pedido> GetPedidosByUser(Usuario user)
+    public Pedido GetPedidoByUserAndId(int usuarioId, int pedidoId)
     {
-        var pedido = _repository.GetPedidoByUserId(user.Id);
+        var pedido = _repository.GetPedidoByUserAndId(usuarioId, pedidoId);
         if (pedido == null)
         {
-            throw new KeyNotFoundException($"No hay pedidos con el id de usuario {user.Id}");
+            throw new KeyNotFoundException($"No se ha encontrado el pedido {pedidoId} del usuario {usuarioId}");
+        }
+        return pedido;
+    }
+
+    public IEnumerable<Pedido> GetPedidosByUser(int userId)
+    {
+        var pedido = _repository.GetPedidoByUserId(userId);
+        if (pedido == null)
+        {
+            throw new KeyNotFoundException($"No hay pedidos con el id de usuario {userId}");
         }
         return pedido;
     }

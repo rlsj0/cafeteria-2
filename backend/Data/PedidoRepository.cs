@@ -49,15 +49,27 @@ public class PedidoRepository : IPedidoRepository
         return pedido;
     }
 
+    public Pedido GetPedidoByUserAndId(int usuarioId, int pedidoId)
+    {
+        var pedidos = _context.Pedidos.Include(p => p.PedidoDetalles)
+            .ThenInclude(pd => pd.Cafe)
+            .Include(p => p.Usuario);
+
+        var pedido = pedidos.FirstOrDefault(pedido => pedido.Id == pedidoId && pedido.UsuarioId == usuarioId);
+
+        if (pedido is null)
+        {
+            throw new KeyNotFoundException("Pedido no encontrado");
+        }
+        return pedido;
+    }
+
     public IEnumerable<Pedido> GetPedidoByUserId(int userId)
     {
         var pedidos = _context.Pedidos.Include(p => p.PedidoDetalles)
                                       .ThenInclude(pd => pd.Cafe)
                                       .Include(p => p.Usuario)
                                       .Where(pedido => pedido.UsuarioId == userId);
-
-        // TODO:
-        // Añadir un método que use esto en UserController
 
         if (pedidos is null || !pedidos.Any())
         {

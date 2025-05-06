@@ -12,7 +12,7 @@ public class UserRepository : IUserRepository
         _context = context;
     }
 
-    public Usuario AddUserFromCredentials(string correo, string hash, byte[] salt)
+    public Usuario AddUsuarioFromCredentials(string correo, string hash, byte[] salt)
     {
         // Primero chequear que el correo no se esté usando ya (devolver excepción)
         if (_context.Usuarios.Any(u => u.Correo == correo))
@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public Usuario GetUserByEmail(string correo)
+    public Usuario GetUsuarioByEmail(string correo)
     {
         var user = _context.Usuarios.FirstOrDefault(u => u.Correo == correo);
         if (user is null)
@@ -42,6 +42,23 @@ public class UserRepository : IUserRepository
             throw new KeyNotFoundException("Usuario no encontrado");
         }
         return user;
+    }
+
+    public Usuario GetUsuarioById(int id)
+    {
+        var user = _context.Usuarios.FirstOrDefault(u => u.Id == id);
+        if (user is null)
+        {
+            throw new KeyNotFoundException("Usuario no encontrado");
+        }
+        return user;
+    }
+
+    public IEnumerable<Usuario> GetUsuarios()
+    {
+        var query = _context.Usuarios.AsQueryable();
+        var result = query.ToList();
+        return result;
     }
 
     public void SaveChanges()
