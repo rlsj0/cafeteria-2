@@ -55,9 +55,32 @@ public class UserRepository : IUserRepository
         return user;
     }
 
-    public IEnumerable<Usuario> GetUsuarios()
+    public IEnumerable<Usuario> GetUsuarios(UsuarioQueryParameteres queryParams)
     {
         var query = _context.Usuarios.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(queryParams.Rol))
+        {
+            query = query.Where(u => u.Rol.ToLower().Contains(queryParams.Rol.ToLower()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(queryParams.Correo))
+        {
+            query = query.Where(u => u.Correo.ToLower().Contains(queryParams.Correo.ToLower()));
+        }
+
+        if (queryParams.FechaInicio != null)
+        {
+            query = query.Where(u => u.FechaCreacion >= queryParams.FechaInicio);
+            query.OrderBy(u => u.FechaCreacion);
+        }
+
+        if (queryParams.FechaFinal != null)
+        {
+            query = query.Where(u => u.FechaCreacion <= queryParams.FechaFinal);
+            query.OrderBy(u => u.FechaCreacion);
+        }
+
         var result = query.ToList();
         return result;
     }

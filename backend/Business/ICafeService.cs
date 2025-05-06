@@ -9,7 +9,7 @@ public interface ICafeService
     public Cafe CreateCafe(CafeCreateDto cafe);
 
     // Read
-    public IEnumerable<Cafe> GetAllCafes();
+    public IEnumerable<Cafe> GetAllCafes(CafeQueryParameters query);
     public Cafe GetCafeById(int id);
 
     // Update

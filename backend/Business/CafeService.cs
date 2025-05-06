@@ -26,7 +26,6 @@ public class CafeService : ICafeService
             Variedad = cafe.Variedad,
             Tipo = cafe.Tipo
         };
-        // TODO: añadir en repositorio la movida del id
         _repository.AddCafe(nuevoCafe);
         _repository.SaveChanges();
         // No se devuelve un café sin ID, porque se devuelve el objeto del repositorio
@@ -34,10 +33,9 @@ public class CafeService : ICafeService
     }
 
     // Read
-    // TODO: meter parámetros de búsqueda
-    public IEnumerable<Cafe> GetAllCafes()
+    public IEnumerable<Cafe> GetAllCafes(CafeQueryParameters query)
     {
-        return _repository.GetAllCafes();
+        return _repository.GetAllCafes(query);
     }
 
     public Cafe GetCafeById(int id)

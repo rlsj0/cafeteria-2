@@ -6,7 +6,7 @@ namespace CafeteriaApp.Business;
 public interface IUsuarioService
 {
     public UsuarioReadDto GetUsuarioById(int id);
-    public IEnumerable<UsuarioReadDto> GetAllUsuarios();
+    public IEnumerable<UsuarioReadDto> GetAllUsuarios(UsuarioQueryParameteres query);
     public bool EsAdmin(ClaimsPrincipal user);
     public bool TieneAcceso(int userId, ClaimsPrincipal user);
 }

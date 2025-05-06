@@ -5,7 +5,7 @@ namespace CafeteriaApp.Data;
 public interface ICafeRepository
 {
 
-    public IEnumerable<Cafe> GetAllCafes();
+    public IEnumerable<Cafe> GetAllCafes(CafeQueryParameters query);
     public Cafe GetCafe(int id);
     public void AddCafe(Cafe cafe);
     public void UpdateCafe(Cafe cafe);

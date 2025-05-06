@@ -12,11 +12,38 @@ public class CafeRepository : ICafeRepository
         _context = context;
     }
 
-    public IEnumerable<Cafe> GetAllCafes()
+    public IEnumerable<Cafe> GetAllCafes(CafeQueryParameters queryParams)
     {
         var query = _context.Cafes.AsQueryable();
 
-        // TODO: meter filtros
+        if (!string.IsNullOrWhiteSpace(queryParams.Variedad))
+        {
+            query = query.Where(c => c.Variedad.ToLower().Contains(queryParams.Variedad.ToLower()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(queryParams.Tipo))
+        {
+            query = query.Where(c => c.Tipo.ToLower().Contains(queryParams.Tipo.ToLower()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(queryParams.OrderBy))
+        {
+            switch (queryParams.OrderBy)
+            {
+                case "precio":
+                    query = queryParams.Desc
+                        ? query.OrderByDescending(c => c.Precio)
+                        : query.OrderBy(c => c.Precio);
+                    break;
+                case "id":
+                    query = queryParams.Desc
+                        ? query.OrderByDescending(c => c.Id)
+                        : query.OrderBy(c => c.Id);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         var result = query.ToList();
 
