@@ -21,7 +21,7 @@ public class CafeController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllCafes")]
-    public ActionResult<IEnumerable<Cafe>> GetCafes()
+    public ActionResult<IEnumerable<Cafe>> GetCafes([FromQuery] CafeQueryParameters query)
     {
         if (!ModelState.IsValid)
         {
@@ -30,7 +30,7 @@ public class CafeController : ControllerBase
 
         try
         {
-            var cafes = _cafeService.GetAllCafes();
+            var cafes = _cafeService.GetAllCafes(query);
             return Ok(cafes);
         }
         catch (Exception ex)
