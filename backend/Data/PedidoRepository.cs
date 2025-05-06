@@ -24,12 +24,6 @@ public class PedidoRepository : IPedidoRepository
                                      .Include(p => p.Usuario)
                                      .ToList();
 
-        // var query = _context.Pedidos.AsQueryable();
-
-        // TODO: meter filtros
-
-        // var result = query.ToList();
-
         return result;
     }
 
