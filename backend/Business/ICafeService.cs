@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using CafeteriaApp.Models;
 
 namespace CafeteriaApp.Business;
@@ -16,5 +17,8 @@ public interface ICafeService
 
     // Delete
     public void DeleteCafe(int id);
+
+    // Autorizar
+    public bool EsAdmin(ClaimsPrincipal user);
 }
 
