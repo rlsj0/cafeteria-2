@@ -32,9 +32,17 @@ public class PedidoService : IPedidoService
         foreach (var detalle in pedidoCreateDto.PedidoDetallesCreateDto)
         {
             var cafe = _cafeRepository.GetCafe(detalle.CafeId);
+
+            if (cafe.CantidadStock < detalle.Cantidad)
+            {
+                throw new Exception("No hay tantos productos disponibles.");
+            }
+
             var precio = cafe.Precio * detalle.Cantidad;
 
             precioTotal = precioTotal + precio;
+            cafe.CantidadStock = cafe.CantidadStock - detalle.Cantidad;
+            _cafeRepository.SaveChanges();
 
             pedidoDetalles.Add(new PedidoDetalle
             {
@@ -61,9 +69,6 @@ public class PedidoService : IPedidoService
 
     public IEnumerable<PedidoReadDto> GetAllPedidos()
     {
-        // TODO: meter aquí parámetros de búsqueda (fecha de inicio/fin)
-        // TODO: meter autorización
-
         var pedidos = _pedidoRepository.GetAllPedidos();
 
         var pedidosDto = new List<PedidoReadDto>();
