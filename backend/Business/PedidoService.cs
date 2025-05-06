@@ -15,12 +15,11 @@ public class PedidoService : IPedidoService
         _cafeRepository = cafeRepository;
     }
 
-    public Pedido CreatePedido(PedidoCreateDto pedidoCreateDto)
+    public Pedido CreatePedido(int userId, PedidoCreateDto pedidoCreateDto)
     {
 
         decimal precioTotal = 0;
         var pedidoDetalles = new List<PedidoDetalle>();
-        Console.WriteLine("He llegado al servicio");
 
         if (pedidoCreateDto.PedidoDetallesCreateDto == null
             || !pedidoCreateDto.PedidoDetallesCreateDto.Any())
@@ -33,7 +32,6 @@ public class PedidoService : IPedidoService
         foreach (var detalle in pedidoCreateDto.PedidoDetallesCreateDto)
         {
             var cafe = _cafeRepository.GetCafe(detalle.CafeId);
-            Console.WriteLine("Cafe: " + detalle.CafeId + " = " + cafe.Id);
             var precio = cafe.Precio * detalle.Cantidad;
 
             precioTotal = precioTotal + precio;
@@ -49,7 +47,7 @@ public class PedidoService : IPedidoService
 
         var pedido = new Pedido
         {
-            UsuarioId = pedidoCreateDto.UsuarioId,
+            UsuarioId = userId,
             PedidoDetalles = pedidoDetalles,
             ClienteSatisfecho = pedidoCreateDto.ClienteSatisfecho,
             PrecioTotal = precioTotal,
@@ -61,14 +59,14 @@ public class PedidoService : IPedidoService
         return pedido;
     }
 
-    public IEnumerable<PedidoCreateDto> GetAllPedidos()
+    public IEnumerable<PedidoReadDto> GetAllPedidos()
     {
         // TODO: meter aquí parámetros de búsqueda (fecha de inicio/fin)
         // TODO: meter autorización
 
         var pedidos = _pedidoRepository.GetAllPedidos();
 
-        var pedidosDto = new List<PedidoCreateDto>();
+        var pedidosDto = new List<PedidoReadDto>();
 
         foreach (var pedido in pedidos)
         {
@@ -83,11 +81,14 @@ public class PedidoService : IPedidoService
                 });
             }
 
-            var pedidoDto = new PedidoCreateDto()
+            var pedidoDto = new PedidoReadDto()
             {
+                Id = pedido.Id,
                 UsuarioId = pedido.UsuarioId,
                 ClienteSatisfecho = pedido.ClienteSatisfecho,
-                PedidoDetallesCreateDto = listaDetalleDto
+                PedidoDetallesCreateDto = listaDetalleDto,
+                PrecioTotal = pedido.PrecioTotal,
+                Fecha = pedido.Fecha
             };
             pedidosDto.Add(pedidoDto);
         }
@@ -95,7 +96,7 @@ public class PedidoService : IPedidoService
         return pedidosDto;
     }
 
-    public PedidoCreateDto GetPedidoById(int id)
+    public PedidoReadDto GetPedidoById(int id)
     {
         var pedido = _pedidoRepository.GetPedidoById(id);
         if (pedido == null)
@@ -114,17 +115,20 @@ public class PedidoService : IPedidoService
             });
         }
 
-        var pedidoDto = new PedidoCreateDto()
+        var pedidoDto = new PedidoReadDto()
         {
+            Id = pedido.Id,
             UsuarioId = pedido.UsuarioId,
             ClienteSatisfecho = pedido.ClienteSatisfecho,
-            PedidoDetallesCreateDto = listaDetalleDto
+            PedidoDetallesCreateDto = listaDetalleDto,
+            PrecioTotal = pedido.PrecioTotal,
+            Fecha = pedido.Fecha
         };
 
         return pedidoDto;
     }
 
-    public PedidoCreateDto GetPedidoByUserAndId(int usuarioId,
+    public PedidoReadDto GetPedidoByUserAndId(int usuarioId,
                                                 int pedidoId)
     {
         var pedido = _pedidoRepository.GetPedidoByUserAndId(usuarioId, pedidoId);
@@ -144,17 +148,20 @@ public class PedidoService : IPedidoService
             });
         }
 
-        var pedidoDto = new PedidoCreateDto()
+        var pedidoDto = new PedidoReadDto()
         {
+            Id = pedido.Id,
             UsuarioId = pedido.UsuarioId,
             ClienteSatisfecho = pedido.ClienteSatisfecho,
-            PedidoDetallesCreateDto = listaDetalleDto
+            PedidoDetallesCreateDto = listaDetalleDto,
+            PrecioTotal = pedido.PrecioTotal,
+            Fecha = pedido.Fecha
         };
 
         return pedidoDto;
     }
 
-    public IEnumerable<PedidoCreateDto> GetPedidosByUser(int userId)
+    public IEnumerable<PedidoReadDto> GetPedidosByUser(int userId)
     {
         var pedidos = _pedidoRepository.GetPedidoByUserId(userId);
         if (pedidos == null)
@@ -162,7 +169,7 @@ public class PedidoService : IPedidoService
             throw new KeyNotFoundException($"No hay pedidos con el id de usuario {userId}");
         }
 
-        var pedidosDto = new List<PedidoCreateDto>();
+        var pedidosDto = new List<PedidoReadDto>();
 
         foreach (var pedido in pedidos)
         {
@@ -177,11 +184,14 @@ public class PedidoService : IPedidoService
                 });
             }
 
-            var pedidoDto = new PedidoCreateDto()
+            var pedidoDto = new PedidoReadDto()
             {
+                Id = pedido.Id,
                 UsuarioId = pedido.UsuarioId,
                 ClienteSatisfecho = pedido.ClienteSatisfecho,
-                PedidoDetallesCreateDto = listaDetalleDto
+                PedidoDetallesCreateDto = listaDetalleDto,
+                PrecioTotal = pedido.PrecioTotal,
+                Fecha = pedido.Fecha
             };
             pedidosDto.Add(pedidoDto);
         }

@@ -2,7 +2,7 @@ namespace CafeteriaApp.Models;
 
 public class PedidoCreateDto
 {
-    public int UsuarioId { get; set; }
+    // No ponemos Id porque queremos sacarlo del JWT
 
     public ICollection<PedidoDetalleCreateDto> PedidoDetallesCreateDto { get; set; }
 

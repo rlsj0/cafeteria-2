@@ -74,7 +74,7 @@ public class PedidoController : ControllerBase
             // Cogiendo id del JWT
             var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var pedido = _pedidoService.CreatePedido(pedidoCreateDto);
+            var pedido = _pedidoService.CreatePedido(usuarioId, pedidoCreateDto);
 
             // Al solo devolver al id, no se serializa
             return Ok(pedido.Id);

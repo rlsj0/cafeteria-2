@@ -4,11 +4,11 @@ namespace CafeteriaApp.Business;
 
 public interface IPedidoService
 {
-    public IEnumerable<PedidoCreateDto> GetAllPedidos();
-    public IEnumerable<PedidoCreateDto> GetPedidosByUser(int userId);
-    public PedidoCreateDto GetPedidoById(int id);
-    public PedidoCreateDto GetPedidoByUserAndId(int usuarioId, int pedidoId);
+    public IEnumerable<PedidoReadDto> GetAllPedidos();
+    public IEnumerable<PedidoReadDto> GetPedidosByUser(int userId);
+    public PedidoReadDto GetPedidoById(int id);
+    public PedidoReadDto GetPedidoByUserAndId(int usuarioId, int pedidoId);
 
-    public Pedido CreatePedido(PedidoCreateDto pedidoCreateDto);
+    public Pedido CreatePedido(int userId, PedidoCreateDto pedidoCreateDto);
 }
 
