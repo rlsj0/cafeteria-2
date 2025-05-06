@@ -26,7 +26,7 @@ public class AuthService : IAuthService
         var correo = usuarioCreateDto.Correo;
         var salt = GenerateSalt();
         var hash = HashPassword(usuarioCreateDto.Contrasena, salt);
-        var user = _repository.AddUserFromCredentials(correo, hash, salt);
+        var user = _repository.AddUsuarioFromCredentials(correo, hash, salt);
 
         var userRead = new UsuarioReadDto()
         {
@@ -40,7 +40,7 @@ public class AuthService : IAuthService
 
     public string Login(UsuarioCreateDto usuarioCreateDto)
     {
-        var usuario = _repository.GetUserByEmail(usuarioCreateDto.Correo);
+        var usuario = _repository.GetUsuarioByEmail(usuarioCreateDto.Correo);
 
         if (usuario == null)
         {
@@ -94,6 +94,7 @@ public class AuthService : IAuthService
             Audience = _configuration["JWT:ValidAudience"],
             Subject = new ClaimsIdentity(new Claim[]
                     {
+                        new Claim(ClaimTypes.NameIdentifier, Convert.ToString(usuarioReadDto.Id)),
                         new Claim(ClaimTypes.Email, usuarioReadDto.Correo),
                         new Claim(ClaimTypes.Role, usuarioReadDto.Rol),
                     }),

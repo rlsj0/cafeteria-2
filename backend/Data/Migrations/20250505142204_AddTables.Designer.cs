@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CafeteriaApp.Data.Migrations
 {
     [DbContext(typeof(CafeteriaAppContext))]
-    [Migration("20250505094458_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20250505142204_AddTables")]
+    partial class AddTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,20 +92,43 @@ namespace CafeteriaApp.Data.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("IdCliente")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("PrecioTotal")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("UsuarioId")
+                    b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Pedido");
+                    b.ToTable("Pedidos");
+                });
+
+            modelBuilder.Entity("CafeteriaApp.Models.PedidoDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CafeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CafeId");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("PedidoDetalles");
                 });
 
             modelBuilder.Entity("CafeteriaApp.Models.Usuario", b =>
@@ -138,13 +161,52 @@ namespace CafeteriaApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            Correo = "admin@gmail.com",
+                            FechaCreacion = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            HashContrasena = "DA6E5F37539A6CC32BC1A519D08B4A5BB012E23A47EB002CF719F081ABC9B463A8FB15728D7E103AB9AA94445B92E794B4C2456EDE79432C9DD508A6856471AF",
+                            Rol = "admin",
+                            SaltContrasena = new byte[] { 6, 180, 134, 209, 96, 88, 60, 119, 131, 1, 148, 163, 178, 90, 20, 2, 253, 27, 72, 117, 232, 26, 82, 226, 24, 202, 90, 213, 186, 179, 115, 11, 146, 58, 113, 9, 175, 64, 246, 158, 80, 54, 220, 113, 17, 23, 44, 229, 51, 202, 58, 238, 49, 222, 254, 218, 217, 202, 8, 144, 186, 1, 25, 143 }
+                        });
                 });
 
             modelBuilder.Entity("CafeteriaApp.Models.Pedido", b =>
                 {
-                    b.HasOne("CafeteriaApp.Models.Usuario", null)
+                    b.HasOne("CafeteriaApp.Models.Usuario", "Usuario")
                         .WithMany("HistoricoPedidos")
-                        .HasForeignKey("UsuarioId");
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CafeteriaApp.Models.PedidoDetalle", b =>
+                {
+                    b.HasOne("CafeteriaApp.Models.Cafe", "Cafe")
+                        .WithMany()
+                        .HasForeignKey("CafeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CafeteriaApp.Models.Pedido", "Pedido")
+                        .WithMany("PedidoDetalles")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cafe");
+
+                    b.Navigation("Pedido");
+                });
+
+            modelBuilder.Entity("CafeteriaApp.Models.Pedido", b =>
+                {
+                    b.Navigation("PedidoDetalles");
                 });
 
             modelBuilder.Entity("CafeteriaApp.Models.Usuario", b =>

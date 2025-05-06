@@ -12,6 +12,8 @@ public class CafeteriaAppContext : DbContext
 
     public DbSet<Cafe> Cafes { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<PedidoDetalle> PedidoDetalles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
