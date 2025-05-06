@@ -25,7 +25,8 @@ public class UserRepository : IUserRepository
             Correo = correo,
             HashContrasena = hash,
             SaltContrasena = salt,
-            Rol = Roles.Cliente
+            Rol = Roles.Cliente,
+            FechaCreacion = DateTime.Now
         };
 
         _context.Add(user);
