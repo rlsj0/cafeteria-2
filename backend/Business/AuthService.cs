@@ -94,6 +94,7 @@ public class AuthService : IAuthService
             Audience = _configuration["JWT:ValidAudience"],
             Subject = new ClaimsIdentity(new Claim[]
                     {
+                        new Claim(ClaimTypes.NameIdentifier, Convert.ToString(usuarioReadDto.Id)),
                         new Claim(ClaimTypes.Email, usuarioReadDto.Correo),
                         new Claim(ClaimTypes.Role, usuarioReadDto.Rol),
                     }),

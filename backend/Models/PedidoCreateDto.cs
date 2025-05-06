@@ -2,11 +2,9 @@ namespace CafeteriaApp.Models;
 
 public class PedidoCreateDto
 {
-    public Usuario usuario { get; set; }
+    public int UsuarioId { get; set; }
 
-    public ICollection<PedidoDetalle> PedidoDetalles { get; set; }
-
-    public decimal PrecioTotal { get; set; }
+    public ICollection<PedidoDetalleCreateDto> PedidoDetallesCreateDto { get; set; }
 
     public bool ClienteSatisfecho { get; set; }
 }

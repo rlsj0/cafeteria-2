@@ -76,8 +76,8 @@ public class PedidoController : ControllerBase
 
             var pedido = _pedidoService.CreatePedido(pedidoCreateDto);
 
+            // Al solo devolver al id, no se serializa
             return Ok(pedido.Id);
-
         }
         catch (Exception ex)
         {
