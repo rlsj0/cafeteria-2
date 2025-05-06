@@ -1,6 +1,7 @@
 using CafeteriaApp.Models;
 using CafeteriaApp.Business;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CafeteriaApp.API.Controllers;
 
@@ -22,13 +23,18 @@ public class UsuarioController : ControllerBase
         _pedidoService = pedidoService;
     }
 
-    // TODO: poner autenticación admin
+    [Authorize]
     [HttpGet(Name = "GetAllUsuarios")]
     public ActionResult<IEnumerable<Usuario>> GetAllUsuarios()
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
+        }
+
+        if (!_usuarioService.EsAdmin(HttpContext.User))
+        {
+            return Unauthorized();
         }
 
         try
@@ -42,7 +48,7 @@ public class UsuarioController : ControllerBase
         }
     }
 
-    // TODO: poner autenticación admin o usuario
+    [Authorize]
     [HttpGet("{id}", Name = "GetUsuario")]
     public IActionResult GetUsuario(int id)
     {
@@ -53,6 +59,10 @@ public class UsuarioController : ControllerBase
                 return BadRequest(ModelState);
             }
 
+            if (!_usuarioService.TieneAcceso(id, HttpContext.User))
+            {
+                return Unauthorized();
+            }
             var usuario = _usuarioService.GetUsuarioById(id);
             return Ok(usuario);
         }
@@ -63,7 +73,7 @@ public class UsuarioController : ControllerBase
     }
 
     // Ver pedidos de usuario
-
+    [Authorize]
     [HttpGet("{id}/pedidos", Name = "GetUsuarioPedidos")]
     public IActionResult GetUsuarioPedidos(int id)
     {
@@ -72,6 +82,11 @@ public class UsuarioController : ControllerBase
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (!_usuarioService.TieneAcceso(id, HttpContext.User))
+            {
+                return Unauthorized();
             }
 
             var pedidos = _pedidoService.GetPedidosByUser(id);
@@ -88,6 +103,7 @@ public class UsuarioController : ControllerBase
     }
 
     // Ver pedido singular de usuario (usuario/id/pedidos/id)
+    [Authorize]
     [HttpGet("{usuarioId}/pedidos/{pedidoId}", Name = "GetUsuarioPedido")]
     public IActionResult GetUsuarioPedidoSingular(int usuarioId,
                                                   int pedidoId)
@@ -97,6 +113,11 @@ public class UsuarioController : ControllerBase
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (!_usuarioService.TieneAcceso(usuarioId, HttpContext.User))
+            {
+                return Unauthorized();
             }
 
             var pedido = _pedidoService.GetPedidoByUserAndId(usuarioId,

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using CafeteriaApp.Data;
 using CafeteriaApp.Models;
 
@@ -10,6 +11,20 @@ public class UsuarioService : IUsuarioService
     public UsuarioService(IUserRepository repository)
     {
         _repository = repository;
+    }
+
+    public bool EsAdmin(ClaimsPrincipal user)
+    {
+        var rol = user.Claims.FirstOrDefault(p => p.Type == ClaimTypes.Role);
+
+        if (rol == null)
+        {
+            return false;
+        }
+
+        var claimValue = rol.Value;
+
+        return claimValue == Roles.Admin;
     }
 
     public IEnumerable<UsuarioReadDto> GetAllUsuarios()
@@ -40,5 +55,20 @@ public class UsuarioService : IUsuarioService
         };
 
         return usuarioDto;
+    }
+
+    // Verificar que la id del user coincide con la del recurso que nos pide
+    public bool TieneAcceso(int userId, ClaimsPrincipal user)
+    {
+        var claimId = user.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier);
+
+        if (claimId == null || !int.TryParse(claimId.Value, out int resultado))
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        var esElUsuario = userId == resultado;
+
+        return EsAdmin(user) || esElUsuario;
     }
 }

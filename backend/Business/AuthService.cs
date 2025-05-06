@@ -117,6 +117,7 @@ public class AuthService : IAuthService
         {
             return false;
         }
+
         var isOwnResource = (userId == id);
 
         var rolClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);

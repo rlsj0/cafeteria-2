@@ -85,6 +85,7 @@ public class CafeController : ControllerBase
     }
 
     // PUT
+    [Authorize]
     [HttpPut("{id}")]
     public IActionResult UpdateCafe(int id,
                                     [FromBody] CafeCreateDto cafeCreateDto)
@@ -112,6 +113,7 @@ public class CafeController : ControllerBase
     }
 
     // DELETE
+    [Authorize]
     [HttpDelete("{id}")]
     public IActionResult DeleteCafe(int id)
     {
