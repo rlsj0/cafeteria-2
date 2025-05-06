@@ -1,5 +1,6 @@
 using CafeteriaApp.Business;
 using CafeteriaApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeteriaApp.API.Controllers;
@@ -58,6 +59,7 @@ public class CafeController : ControllerBase
     }
 
     // POST
+    [Authorize]
     [HttpPost]
     public IActionResult CreateCafe([FromBody] CafeCreateDto cafeCreateDto)
     {
@@ -65,6 +67,12 @@ public class CafeController : ControllerBase
         {
             return BadRequest(ModelState);
         }
+
+        if (!_cafeService.EsAdmin(HttpContext.User))
+        {
+            return Forbid();
+        }
+
         try
         {
             var cafe = _cafeService.CreateCafe(cafeCreateDto);
@@ -74,10 +82,10 @@ public class CafeController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-
     }
 
     // PUT
+    [Authorize]
     [HttpPut("{id}")]
     public IActionResult UpdateCafe(int id,
                                     [FromBody] CafeCreateDto cafeCreateDto)
@@ -85,6 +93,11 @@ public class CafeController : ControllerBase
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
+        }
+
+        if (!_cafeService.EsAdmin(HttpContext.User))
+        {
+            return Forbid();
         }
 
         try
@@ -100,9 +113,15 @@ public class CafeController : ControllerBase
     }
 
     // DELETE
+    [Authorize]
     [HttpDelete("{id}")]
     public IActionResult DeleteCafe(int id)
     {
+        if (!_cafeService.EsAdmin(HttpContext.User))
+        {
+            return Forbid();
+        }
+
         try
         {
             _cafeService.DeleteCafe(id);

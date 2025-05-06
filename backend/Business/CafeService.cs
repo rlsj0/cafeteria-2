@@ -1,5 +1,6 @@
 using CafeteriaApp.Models;
 using CafeteriaApp.Data;
+using System.Security.Claims;
 
 namespace CafeteriaApp.Business;
 
@@ -83,6 +84,21 @@ public class CafeService : ICafeService
 
         _repository.DeleteCafe(id);
         _repository.SaveChanges();
+    }
+
+    // Autorizar
+    public bool EsAdmin(ClaimsPrincipal user)
+    {
+        var rol = user.Claims.FirstOrDefault(p => p.Type == ClaimTypes.Role);
+
+        if (rol == null)
+        {
+            return false;
+        }
+
+        var claimValue = rol.Value;
+
+        return claimValue == Roles.Admin;
     }
 }
 

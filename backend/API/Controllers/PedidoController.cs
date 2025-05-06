@@ -13,25 +13,34 @@ public class PedidoController : ControllerBase
     private readonly ILogger<PedidoController> _logger;
     // TODO: usar el logger abajo, por ejemplo para POST, PUT y DELETE
     private readonly IPedidoService _pedidoService;
+    private readonly IUsuarioService _usuarioService;
 
 
     public PedidoController(ILogger<PedidoController> logger,
-                          IPedidoService pedidoService)
+                          IPedidoService pedidoService,
+                          IUsuarioService usuarioService)
     {
         _logger = logger;
         _pedidoService = pedidoService;
+        _usuarioService = usuarioService;
     }
 
+    [Authorize]
     [HttpGet(Name = "GetAllPedidos")]
     public ActionResult<IEnumerable<Pedido>> GetAllPedidos()
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_usuarioService.EsAdmin(HttpContext.User))
+            {
+                return Unauthorized();
+            }
+
             var pedidos = _pedidoService.GetAllPedidos();
             return Ok(pedidos);
         }
@@ -41,6 +50,7 @@ public class PedidoController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("{id}", Name = "GetPedido")]
     public IActionResult GetPedido(int id)
     {
@@ -49,6 +59,11 @@ public class PedidoController : ControllerBase
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (!_usuarioService.EsAdmin(HttpContext.User))
+            {
+                return Unauthorized();
             }
 
             var pedido = _pedidoService.GetPedidoById(id);

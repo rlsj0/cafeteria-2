@@ -112,10 +112,12 @@ public class AuthService : IAuthService
     public bool VerificarAcceso(int id, ClaimsPrincipal user)
     {
         var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+
         if (userIdClaim is null || !int.TryParse(userIdClaim.Value, out int userId))
         {
             return false;
         }
+
         var isOwnResource = (userId == id);
 
         var rolClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
