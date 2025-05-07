@@ -72,13 +72,13 @@ public class UserRepository : IUserRepository
         if (queryParams.FechaInicio != null)
         {
             query = query.Where(u => u.FechaCreacion >= queryParams.FechaInicio);
-            query.OrderBy(u => u.FechaCreacion);
+            query = query.OrderBy(u => u.FechaCreacion);
         }
 
         if (queryParams.FechaFinal != null)
         {
             query = query.Where(u => u.FechaCreacion <= queryParams.FechaFinal);
-            query.OrderBy(u => u.FechaCreacion);
+            query = query.OrderBy(u => u.FechaCreacion);
         }
 
         var result = query.ToList();
