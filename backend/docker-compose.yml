@@ -1,0 +1,33 @@
+version: '3.8'
+
+networks:
+  backend:
+
+volumes:
+  mariadb-data:
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    networks:
+      - backend
+    # Primero el host, luego el contendor
+    ports:
+      - 3208:3306
+    volumes:
+      - /tmp/mariadb:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=mypassword
+
+  backend:
+    ports:
+      - 8023:8080
+    networks:
+      - backend
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    depends_on:
+      - mariadb
+
