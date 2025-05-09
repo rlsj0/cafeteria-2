@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import CafeGrid from '../components/CafeGrid.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>Home</h1>
+    <CafeGrid />
   </main>
 </template>
