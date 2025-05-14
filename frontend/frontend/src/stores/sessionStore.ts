@@ -63,6 +63,12 @@ export const useSessionStore = defineStore('session', () => {
     setToken(newToken);
   }
 
+  function logout() {
+    isAdmin.value = false;
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('isAdmin');
+  }
+
   return {
     email,
     password,
