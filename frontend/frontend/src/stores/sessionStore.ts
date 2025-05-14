@@ -6,19 +6,22 @@ export const useSessionStore = defineStore('session', () => {
 
   const email = ref('');
   const password = ref('');
-  const isAdmin = ref(false);
+  // Usamos las variables reactivas para actualizar si hay cambios
+  const token = ref(sessionStorage.getItem('authToken') || "");
+  const isAdmin = ref(sessionStorage.getItem('isAdmin') === "true");
 
   // Almacenamos el token con la clave 'authToken'
   function setToken(newToken: string) {
     sessionStorage.setItem('authToken', newToken);
+    token.value = newToken;
 
     // Aprovechamos a guardar si es admin
     try {
       const decodedToken = jwtDecode(newToken);
-      isAdmin.value = decodedToken.role == "admin";
-      console.log(isAdmin.value);
+      isAdmin.value = decodedToken.role === "admin";
+      // console.log(isAdmin.value);
 
-      sessionStorage.setItem('isAdmin', isAdmin.value);
+      sessionStorage.setItem('isAdmin', isAdmin.value.toString());
     }
     catch (ex) {
       console.log("Error al guardar el token: " + ex.message)
@@ -67,6 +70,25 @@ export const useSessionStore = defineStore('session', () => {
     isAdmin.value = false;
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('isAdmin');
+    token.value = "";
+    email.value = "";
+    password.value = "";
+    console.log('Sesión cerrada');
+  }
+
+  function estaLogueado() {
+    if (sessionStorage.getItem('authToken') != null) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  function esAdmin() {
+    if (sessionStorage.getItem('isAdmin') === 'true')
+      return true
+    else
+      return false
   }
 
   return {
@@ -74,6 +96,10 @@ export const useSessionStore = defineStore('session', () => {
     password,
     getToken,
     login,
+    logout,
     isAdmin,
+    token,
+    estaLogueado,
+    esAdmin,
   }
 });
