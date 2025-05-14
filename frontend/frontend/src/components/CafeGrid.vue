@@ -50,19 +50,16 @@ function anadir(id, variedad, tipo) {
 
 const props = defineProps({
   filtroVariedad: String,
-  filtroTipo: String
+  filtroTipo: String,
+  filtroOrderBy: String,
+  filtroOrderDesc: String
 })
-
-const variedad = ref('');
-
-// TODO: meter más filtros de búsqueda. Para ello, cambiar la propiedad de este componente (en vez
-// de llamarse filtro, puede llamarse filtroVariedad, o similar.
-
-// TODO: crear objeto filtros
 
 const filtros = ref({
   Variedad: '',
-  Tipo: ''
+  Tipo: '',
+  OrderBy: '',
+  Desc: ''
 });
 
 watch(() => props.filtroVariedad, (nuevoValor) => {
@@ -78,16 +75,15 @@ watch(() => props.filtroTipo, (nuevoValor) => {
   busqueda(filtros.value);
 })
 
-// TODO: convertir en un método de búsqueda
-const busquedaVariedad = async (variedad) => {
-  if (variedad != null && variedad != '')
-    url.searchParams.set('Variedad', variedad);
-  else
-    url.searchParams.delete('Variedad');
-  const response = await fetch(url);
-  const data = await response.json();
-  cafes.value = data;
-}
+watch(() => props.filtroOrderBy, (nuevoValor) => {
+  filtros.value.OrderBy = nuevoValor;
+  busqueda(filtros.value);
+})
+
+watch(() => props.filtroOrderDesc, (nuevoValor) => {
+  filtros.value.Desc = nuevoValor;
+  busqueda(filtros.value);
+})
 
 const busqueda = async (filtros) => {
   const urlBusqueda = new URL(url);
