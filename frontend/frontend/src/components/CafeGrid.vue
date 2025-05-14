@@ -1,6 +1,6 @@
 <template>
   <div class="cafe-grid">
-    <div v-for="cafe in cafes" :key="cafe.id">
+    <div v-for="cafe in cafeStore.cafes" :key="cafe.id">
       <h3>{{ cafe.variedad }}</h3>
       <p>{{ cafe.tipo }}</p>
       <p>{{ cafe.precio }}$</p>
@@ -13,15 +13,15 @@
 
 import { ref, onMounted, computed, watch, watchEffect } from 'vue';
 
-let cafes = ref(0);
-const url = new URL('http://localhost:8023/Cafe');
+import { useCafeStore } from '@/stores/cafeStore'
+
+const cafeStore = useCafeStore();
 
 onMounted(async () => {
-  const response = await fetch(url);
-  const data = await response.json();
-  cafes.value = data;
+  cafeStore.fetchCafes();
 });
 
+// TODO: revisar el tema este del pedido
 const detallesPedido = ref([]);
 
 // Le meto el nombre pero tendremos que quitarlo al hacer el POST
@@ -55,49 +55,25 @@ const props = defineProps({
   filtroOrderDesc: String
 })
 
-const filtros = ref({
-  Variedad: '',
-  Tipo: '',
-  OrderBy: '',
-  Desc: ''
-});
-
 watch(() => props.filtroVariedad, (nuevoValor) => {
-  //variedad.value. = nuevoValor;
-  filtros.value.Variedad = nuevoValor;
-  //console.log(variedad.value);
-  //busquedaVariedad(variedad.value);
-  busqueda(filtros.value);
+  cafeStore.filtros.Variedad = nuevoValor;
+  cafeStore.fetchCafes();
 })
 
 watch(() => props.filtroTipo, (nuevoValor) => {
-  filtros.value.Tipo = nuevoValor;
-  busqueda(filtros.value);
+  cafeStore.filtros.Tipo = nuevoValor;
+  cafeStore.fetchCafes();
 })
 
 watch(() => props.filtroOrderBy, (nuevoValor) => {
-  filtros.value.OrderBy = nuevoValor;
-  busqueda(filtros.value);
+  cafeStore.filtros.OrderBy = nuevoValor;
+  cafeStore.fetchCafes();
 })
 
 watch(() => props.filtroOrderDesc, (nuevoValor) => {
-  filtros.value.Desc = nuevoValor;
-  busqueda(filtros.value);
+  cafeStore.filtros.Desc = nuevoValor;
+  cafeStore.fetchCafes();
 })
-
-const busqueda = async (filtros) => {
-  const urlBusqueda = new URL(url);
-
-  for (const [clave, valor] of Object.entries(filtros)) {
-    if (valor != null && valor != '') {
-      urlBusqueda.searchParams.set(clave, valor);
-    }
-  }
-
-  const response = await fetch(urlBusqueda);
-  const data = await response.json();
-  cafes.value = data;
-};
 
 </script>
 
