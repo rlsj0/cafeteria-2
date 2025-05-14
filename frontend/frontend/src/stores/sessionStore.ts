@@ -1,14 +1,30 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { jwtDecode } from 'jwt-decode'
 
 export const useSessionStore = defineStore('session', () => {
 
   const email = ref('');
   const password = ref('');
+  const isAdmin = ref(false);
 
   // Almacenamos el token con la clave 'authToken'
   function setToken(newToken: string) {
     sessionStorage.setItem('authToken', newToken);
+
+    // Aprovechamos a guardar si es admin
+    try {
+      const decodedToken = jwtDecode(newToken);
+      isAdmin.value = decodedToken.role == "admin";
+      console.log(isAdmin.value);
+
+      sessionStorage.setItem('isAdmin', isAdmin.value);
+    }
+    catch (ex) {
+      console.log("Error al guardar el token: " + ex.message)
+      isAdmin.value = false;
+      sessionStorage.removeItem('isAdmin');
+    }
   }
 
   // Accedemos al store con la clave authToken
@@ -35,9 +51,14 @@ export const useSessionStore = defineStore('session', () => {
     // El Token me llega como texto plano. El error como un json.
     // if(!response.ok)...
 
+    // TODO: es necesario meter lo esta parte en un try catch y tal
+    // (no se debería intentar set el token si falla)
+
     // El token no es json sino texto plano
     const newToken = await response.text();
-    console.log('Token: ' + newToken);
+    // console.log('Token: ' + newToken);
+    // const decoded = jwtDecode(newToken);
+    // console.log('Decodificado: ', decoded);
 
     setToken(newToken);
   }
@@ -47,5 +68,6 @@ export const useSessionStore = defineStore('session', () => {
     password,
     getToken,
     login,
+    isAdmin,
   }
 });
