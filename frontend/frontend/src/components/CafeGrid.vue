@@ -49,7 +49,8 @@ function anadir(id, variedad, tipo) {
 // PARTE DE COGER EL VALOR DEL PADRE
 
 const props = defineProps({
-  filtrar: String
+  filtroVariedad: String,
+  filtroTipo: String
 })
 
 const variedad = ref('');
@@ -57,12 +58,27 @@ const variedad = ref('');
 // TODO: meter más filtros de búsqueda. Para ello, cambiar la propiedad de este componente (en vez
 // de llamarse filtro, puede llamarse filtroVariedad, o similar.
 
-watch(() => props.filtrar, (nuevoValor) => {
-  variedad.value = nuevoValor;
-  console.log(variedad.value);
-  busquedaVariedad(variedad.value);
+// TODO: crear objeto filtros
+
+const filtros = ref({
+  Variedad: '',
+  Tipo: ''
+});
+
+watch(() => props.filtroVariedad, (nuevoValor) => {
+  //variedad.value. = nuevoValor;
+  filtros.value.Variedad = nuevoValor;
+  //console.log(variedad.value);
+  //busquedaVariedad(variedad.value);
+  busqueda(filtros.value);
 })
 
+watch(() => props.filtroTipo, (nuevoValor) => {
+  filtros.value.Tipo = nuevoValor;
+  busqueda(filtros.value);
+})
+
+// TODO: convertir en un método de búsqueda
 const busquedaVariedad = async (variedad) => {
   if (variedad != null && variedad != '')
     url.searchParams.set('Variedad', variedad);
@@ -72,6 +88,20 @@ const busquedaVariedad = async (variedad) => {
   const data = await response.json();
   cafes.value = data;
 }
+
+const busqueda = async (filtros) => {
+  const urlBusqueda = new URL(url);
+
+  for (const [clave, valor] of Object.entries(filtros)) {
+    if (valor != null && valor != '') {
+      urlBusqueda.searchParams.set(clave, valor);
+    }
+  }
+
+  const response = await fetch(urlBusqueda);
+  const data = await response.json();
+  cafes.value = data;
+};
 
 </script>
 

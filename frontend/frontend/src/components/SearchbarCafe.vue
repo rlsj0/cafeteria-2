@@ -1,20 +1,23 @@
 <template>
   <div>
     <label>Variedad: </label>
-    <input type="search" v-model="searchword" v-on:input="$emit('searchCafe', searchword)"></input>
+    <input type="search" v-model="variedad" v-on:input="$emit('searchVariedad', variedad)"></input>
   </div>
-  <!--TODO: recordemos que se puede buscar por variedad, tipo, y orderBy (precio o id) -->
+  <div>
+    <label>Tipo: </label>
+    <input type="search" v-model="tipo" v-on:input="$emit('searchTipo', tipo)"></input>
+  </div>
 </template>
+<!--TODO: recordemos que se puede buscar por variedad, tipo, y orderBy (precio o id) -->
 
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 
-const searchword = ref('');
+const emit = defineEmits(['searchVariedad', 'searchTipo']);
 
-// function searchCafe() {
-//   console.log(searchword.value);
-// }
+const variedad = ref('');
+const tipo = ref('');
 
 </script>
 
