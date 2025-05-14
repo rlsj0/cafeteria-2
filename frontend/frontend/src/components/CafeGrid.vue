@@ -11,15 +11,15 @@
 
 <script setup lang="ts">
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, watch, watchEffect } from 'vue';
 
-let cafes = ref(0)
+let cafes = ref(0);
+const url = new URL('http://localhost:8023/Cafe');
 
 onMounted(async () => {
-  const response = await fetch('http://localhost:8023/Cafe');
+  const response = await fetch(url);
   const data = await response.json();
   cafes.value = data;
-  console.log(cafes.value);
 });
 
 const detallesPedido = ref([]);
@@ -44,6 +44,33 @@ function anadir(id, variedad, tipo) {
     detallesPedido.value.push(new Detalle(id, variedad, tipo));
   }
   console.log(JSON.stringify(detallesPedido.value, null, 2));
+}
+
+// PARTE DE COGER EL VALOR DEL PADRE
+
+const props = defineProps({
+  filtrar: String
+})
+
+const variedad = ref('');
+
+// TODO: meter más filtros de búsqueda. Para ello, cambiar la propiedad de este componente (en vez
+// de llamarse filtro, puede llamarse filtroVariedad, o similar.
+
+watch(() => props.filtrar, (nuevoValor) => {
+  variedad.value = nuevoValor;
+  console.log(variedad.value);
+  busquedaVariedad(variedad.value);
+})
+
+const busquedaVariedad = async (variedad) => {
+  if (variedad != null && variedad != '')
+    url.searchParams.set('Variedad', variedad);
+  else
+    url.searchParams.delete('Variedad');
+  const response = await fetch(url);
+  const data = await response.json();
+  cafes.value = data;
 }
 
 </script>
