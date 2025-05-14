@@ -1,8 +1,10 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { jwtDecode } from 'jwt-decode'
+import { useRouter } from 'vue-router'
 
 export const useSessionStore = defineStore('session', () => {
+  const router = useRouter();
 
   const email = ref('');
   const password = ref('');
@@ -21,6 +23,7 @@ export const useSessionStore = defineStore('session', () => {
       isAdmin.value = decodedToken.role === "admin";
       // console.log(isAdmin.value);
 
+      sessionStorage.setItem('id', decodedToken.nameid.toString());
       sessionStorage.setItem('isAdmin', isAdmin.value.toString());
     }
     catch (ex) {
@@ -34,6 +37,11 @@ export const useSessionStore = defineStore('session', () => {
   const getToken = () => {
     sessionStorage.getItem('authToken');
   }
+
+  const getEmail = computed(() => sessionStorage.getItem('email'));
+
+
+  const getId = computed(() => sessionStorage.getItem('id'));
 
   async function login() {
     console.log('Email: ' + email.value);
@@ -57,6 +65,7 @@ export const useSessionStore = defineStore('session', () => {
     // TODO: es necesario meter lo esta parte en un try catch y tal
     // (no se debería intentar set el token si falla)
 
+    sessionStorage.setItem('email', email.value)
     // El token no es json sino texto plano
     const newToken = await response.text();
     // console.log('Token: ' + newToken);
@@ -70,10 +79,13 @@ export const useSessionStore = defineStore('session', () => {
     isAdmin.value = false;
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('isAdmin');
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('id');
     token.value = "";
     email.value = "";
     password.value = "";
     console.log('Sesión cerrada');
+    router.push('/');
   }
 
   function estaLogueado() {
@@ -101,5 +113,7 @@ export const useSessionStore = defineStore('session', () => {
     token,
     estaLogueado,
     esAdmin,
+    getId,
+    getEmail,
   }
 });

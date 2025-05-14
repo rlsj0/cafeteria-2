@@ -1,6 +1,6 @@
 <template>
   <div>
-    Hola. Funcionando
+    <router-link to="/userzone">Private Zone</router-link>
   </div>
 </template>
 <script lang="ts">
