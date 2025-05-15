@@ -21,8 +21,14 @@ const orderDesc = ref('');
 <template>
   <div>
     <h1 class="text-h2">Home</h1>
-    <Login v-if="!sessionStore.token" />
-    <Register v-if="!sessionStore.token" />
+    <v-row justify="space-between" align="stretch" class="my-4">
+      <v-col>
+        <Login v-if="!sessionStore.token" />
+      </v-col>
+      <v-col>
+        <Register v-if="!sessionStore.token" />
+      </v-col>
+    </v-row>
     <SearchbarCafe v-on:searchVariedad="variedad = $event" v-on:searchTipo="tipo = $event"
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
     <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
