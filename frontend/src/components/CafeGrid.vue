@@ -7,7 +7,7 @@
 
     <v-row dense>
       <v-col v-for="cafe in cafeStore.cafes" :key="cafe.id" class="d-flex justify-center">
-        <v-card outlined class="pa-4">
+        <v-card outlined class="pa-4" style="min-width: 250px;">
           <div>
             <v-card-title class="text-h6">{{ cafe.variedad }}</v-card-title>
             <v-card-subtitle class="mb-2">{{ cafe.tipo }}</v-card-subtitle>
