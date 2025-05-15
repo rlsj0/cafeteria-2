@@ -5,6 +5,7 @@ import { ref, onMounted } from 'vue';
 import { useSessionStore } from '@/stores/sessionStore'
 
 const sessionStore = useSessionStore();
+const id = sessionStore.getId;
 
 </script>
 
@@ -14,6 +15,7 @@ const sessionStore = useSessionStore();
   <h1>Zona Privada de Usuario</h1>
   <p>Usuario número: {{ sessionStore.getId }} </p>
   <p>Correo: {{ sessionStore.getEmail }} </p>
-  <!-- <ListadoPedidosUsuario />-->
+  <h3>Listado de pedidos: </h3>
+  <ListadoPedidosUsuario v-bind:identificador="id" />
 
 </template>
