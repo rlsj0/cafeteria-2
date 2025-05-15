@@ -12,9 +12,7 @@ const sessionStore = useSessionStore();
 <template>
   <v-app-bar color="primary" density="comfortable" app>
     <div class="d-flex align-center justify-space-between w-100 px-4">
-      <router-link to="/" class="text-white text-decoration-none text-h6">
-        Cafetería 2
-      </router-link>
+      <router-link to="/" class="text-white text-decoration-none text-h6">Cafetería 2</router-link>
 
       <div class="d-flex space-between">
         <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />

@@ -19,7 +19,7 @@ const orderDesc = ref('');
 </script>
 
 <template>
-  <main>
+  <div>
     <h1>Home</h1>
     <SearchbarCafe v-on:searchVariedad="variedad = $event" v-on:searchTipo="tipo = $event"
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
@@ -27,5 +27,5 @@ const orderDesc = ref('');
     <Login v-if="!sessionStore.token" />
     <Register v-if="!sessionStore.token" />
     <CafeGrid :filtroVariedad="variedad" :filtroTipo="tipo" :filtroOrderBy="orderBy" :filtroOrderDesc="orderDesc" />
-  </main>
+  </div>
 </template>
