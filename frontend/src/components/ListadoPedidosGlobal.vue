@@ -48,7 +48,7 @@ async function fetchPedidos() {
 <template>
   <v-container>
     <v-row dense>
-      <v-col v-for="pedido in pedidos" :key="pedido.id" cols="12" md="6" lg="4">
+      <v-col v-for="pedido in pedidos" :key="pedido.id" cols="12">
         <v-card outlined class="pa-4 mb-4">
           <v-card-title class="text-h6">Pedido #{{ pedido.id }}</v-card-title>
           <v-card-subtitle>Fecha: {{ pedido.fecha }}</v-card-subtitle>

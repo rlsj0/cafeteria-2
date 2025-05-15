@@ -11,8 +11,8 @@ const id = sessionStore.getId;
 
 <template>
 
-  <h1>Zona Privada de Admin</h1>
-  <h3>Listado global de pedidos: </h3>
+  <h1 class="text-h3 pa-4">Zona Privada de Admin</h1>
+  <h3 class="text-h4 pa-4">Listado global de pedidos: </h3>
   <!-- <ListadoPedidosUsuario v-bind:identificador="id" />-->
   <ListadoPedidosGlobal />
 
