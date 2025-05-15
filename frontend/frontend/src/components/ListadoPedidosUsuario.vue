@@ -2,8 +2,10 @@
 import { ref, onMounted, defineProps } from 'vue'
 
 import { useSessionStore } from '@/stores/sessionStore'
+import { useCafeStore } from '@/stores/cafeStore'
 
 const sessionStore = useSessionStore();
+const cafeStore = useCafeStore();
 
 const props = defineProps({ identificador: String });
 const token = ref('');
@@ -11,26 +13,22 @@ const id = sessionStore.getId;
 
 const pedidos = ref([]);
 
-onMounted(() => {
+onMounted(async () => {
   token.value = sessionStore.token;
-  console.log(props.identificador)
-  fetchPedidosUsuario();
-  // TODO: pintar los pedidos
+
+  // Limpiar los filtros para que salgan todos los cafés
+  cafeStore.filtros.Variedad = '';
+  cafeStore.filtros.Tipo = '';
+  cafeStore.filtros.OrderBy = '';
+  cafeStore.filtros.Desc = '';
+
+  await cafeStore.fetchCafes();
+  await fetchPedidosUsuario();
 })
 
 // Usuario/{usuarioId}/pedidos
 async function fetchPedidosUsuario() {
   const url = new URL('http://localhost:8023/Usuario/' + id + '/pedidos');
-  console.log(url.toString());
-
-  console.log(url, {
-    method: 'GET',
-    headers: {
-      'Accept': '*/*',
-      'Authorization': `Bearer ${token.value}`,
-      'Content-Type': 'application/json'
-    }
-  });
 
   const response = await fetch(url, {
     method: 'GET',
@@ -49,6 +47,17 @@ async function fetchPedidosUsuario() {
 
 <template>
   <div>
-
+    <div v-for="pedido in pedidos" :key="pedido.id">
+      <p>Fecha: {{ pedido.fecha }}</p>
+      <p>Id del pedido: {{ pedido.id }}</p>
+      <p>Precio total: {{ pedido.precioTotal }}</p>
+      <div v-for="detalle in pedido.pedidoDetallesCreateDto" :key="detalle.cafeId">
+        <p>{{ detalle.cafeId }}) {{cafeStore.cafes.find(c => c.id === detalle.cafeId).variedad}}:
+          {{cafeStore.cafes.find(c => c.id === detalle.cafeId).tipo}}</p>
+        <p>Precio unitario:
+          {{cafeStore.cafes.find(c => c.id === detalle.cafeId).precio}}</p>
+        <p>Cantidad: {{ detalle.cantidad }}</p>
+      </div>
+    </div>
   </div>
 </template>
