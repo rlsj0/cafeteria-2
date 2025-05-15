@@ -1,13 +1,14 @@
 <template>
-  <button v-on:click="confirmarPedido">Confirmar pedido</button>
+  <button v-on:click="confirmarPedido" v-if="sessionStore.token && !sessionStore.isAdmin"
+    v-bind:disabled="detallesPedido.length == 0">Confirmar pedido</button>
   <div class="cafe-grid">
     <div v-for="cafe in cafeStore.cafes" :key="cafe.id">
       <h3>{{ cafe.variedad }}</h3>
       <p>{{ cafe.tipo }}</p>
       <p>{{ cafe.precio }}$</p>
       <p>Cantidad disponible: {{ cafe.cantidadStock }}</p>
-      <button v-on:click="anadir(cafe.id, cafe.variedad, cafe.tipo)"
-        v-bind:disabled="cafe.cantidadStock === 0">Añadir</button>
+      <button v-on:click="anadir(cafe.id, cafe.variedad, cafe.tipo)" v-bind:disabled="cafe.cantidadStock === 0"
+        v-if="sessionStore.token && !sessionStore.isAdmin">Añadir</button>
     </div>
   </div>
 </template>
