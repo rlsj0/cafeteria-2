@@ -46,20 +46,39 @@ async function fetchPedidos() {
 </script>
 
 <template>
-  <div>
-    <div v-for="pedido in pedidos" :key="pedido.id">
-      <br />
-      <p>Fecha: {{ pedido.fecha }}</p>
-      <p>Id del pedido: {{ pedido.id }}</p>
-      <p>User id: {{ pedido.usuarioId }}</p>
-      <p>Precio total: {{ pedido.precioTotal }}</p>
-      <div v-for="detalle in pedido.pedidoDetallesCreateDto" :key="detalle.cafeId">
-        <p>{{ detalle.cafeId }}) {{cafeStore.cafes.find(c => c.id === detalle.cafeId).variedad}}:
-          {{cafeStore.cafes.find(c => c.id === detalle.cafeId).tipo}}</p>
-        <p>Precio unitario:
-          {{cafeStore.cafes.find(c => c.id === detalle.cafeId).precio}}</p>
-        <p>Cantidad: {{ detalle.cantidad }}</p>
-      </div>
-    </div>
-  </div>
+  <v-container>
+    <v-row dense>
+      <v-col v-for="pedido in pedidos" :key="pedido.id" cols="12" md="6" lg="4">
+        <v-card outlined class="pa-4 mb-4">
+          <v-card-title class="text-h6">Pedido #{{ pedido.id }}</v-card-title>
+          <v-card-subtitle>Fecha: {{ pedido.fecha }}</v-card-subtitle>
+
+          <v-card-text>
+            <p><strong>User ID:</strong> {{ pedido.usuarioId }}</p>
+            <p><strong>Precio total:</strong> {{ pedido.precioTotal }}</p>
+
+            <v-divider class="my-3"></v-divider>
+
+            <v-list dense>
+              <v-list-item v-for="detalle in pedido.pedidoDetallesCreateDto" :key="detalle.cafeId">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ detalle.cafeId }})
+                    {{cafeStore.cafes.find(c => c.id === detalle.cafeId).variedad}}:
+                    {{cafeStore.cafes.find(c => c.id === detalle.cafeId).tipo}}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    Precio unitario: {{cafeStore.cafes.find(c => c.id === detalle.cafeId).precio}}
+                  </v-list-item-subtitle>
+                  <v-list-item-subtitle>
+                    Cantidad: {{ detalle.cantidad }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
