@@ -61,19 +61,17 @@ async function fetchPedidos() {
 
             <v-list dense>
               <v-list-item v-for="detalle in pedido.pedidoDetallesCreateDto" :key="detalle.cafeId">
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ detalle.cafeId }})
-                    {{cafeStore.cafes.find(c => c.id === detalle.cafeId).variedad}}:
-                    {{cafeStore.cafes.find(c => c.id === detalle.cafeId).tipo}}
-                  </v-list-item-title>
-                  <v-list-item-subtitle>
-                    Precio unitario: {{cafeStore.cafes.find(c => c.id === detalle.cafeId).precio}}
-                  </v-list-item-subtitle>
-                  <v-list-item-subtitle>
-                    Cantidad: {{ detalle.cantidad }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
+                <v-list-item-title>
+                  {{ detalle.cafeId }})
+                  {{cafeStore.cafes.find(c => c.id === detalle.cafeId).variedad}}:
+                  {{cafeStore.cafes.find(c => c.id === detalle.cafeId).tipo}}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  Precio unitario: {{cafeStore.cafes.find(c => c.id === detalle.cafeId).precio}}
+                </v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  Cantidad: {{ detalle.cantidad }}
+                </v-list-item-subtitle>
               </v-list-item>
             </v-list>
           </v-card-text>
