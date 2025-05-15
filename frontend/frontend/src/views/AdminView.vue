@@ -11,8 +11,6 @@ const id = sessionStore.getId;
 
 <template>
 
-  <router-link to="/">Home</router-link>
-  <LogoutBtn />
   <h1>Zona Privada de Admin</h1>
   <h3>Listado global de pedidos: </h3>
   <!-- <ListadoPedidosUsuario v-bind:identificador="id" />-->
