@@ -1,7 +1,5 @@
 <template>
-  <button v-on:click="cerrarSesion">
-    Log out
-  </button>
+  <v-btn class="text-h6" v-on:click="cerrarSesion">Log out</v-btn>
 </template>
 
 <script setup lang="ts">

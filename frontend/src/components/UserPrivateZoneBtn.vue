@@ -1,7 +1,3 @@
 <template>
-  <div>
-    <router-link to="/userzone">Private Zone</router-link>
-  </div>
+  <v-btn class="text-white text-decoration-none text-h6" text to="/userzone">Private Zone</v-btn>
 </template>
-<script lang="ts">
-</script>

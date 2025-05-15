@@ -10,14 +10,19 @@ const sessionStore = useSessionStore();
 </script>
 
 <template>
-  <v-app-bar>
-    <router-link to="/">
-      <h1>Cafetería 2</h1>
-    </router-link>
-    <nav>
-      <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
-      <AdminPrivateZoneBtn v-if="sessionStore.token && sessionStore.isAdmin" />
-      <LogoutBtn v-if="sessionStore.token" />
-    </nav>
+  <v-app-bar color="primary" density="comfortable" app>
+    <div class="d-flex align-center justify-space-between w-100 px-4">
+      <router-link to="/" class="text-white text-decoration-none text-h6">
+        Cafetería 2
+      </router-link>
+
+      <div class="d-flex space-between">
+        <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
+        <AdminPrivateZoneBtn v-if="sessionStore.token && sessionStore.isAdmin" />
+        <LogoutBtn v-if="sessionStore.token" />
+      </div>
+    </div>
   </v-app-bar>
 </template>
+
+<style scoped></style>
