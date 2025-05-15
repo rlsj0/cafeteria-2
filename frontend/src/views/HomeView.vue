@@ -31,7 +31,6 @@ const orderDesc = ref('');
     </v-row>
     <SearchbarCafe v-on:searchVariedad="variedad = $event" v-on:searchTipo="tipo = $event"
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
-    <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
     <CafeGrid :filtroVariedad="variedad" :filtroTipo="tipo" :filtroOrderBy="orderBy" :filtroOrderDesc="orderDesc" />
   </div>
 </template>

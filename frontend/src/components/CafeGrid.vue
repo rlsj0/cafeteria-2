@@ -1,15 +1,31 @@
 <template>
-  <button v-on:click="confirmarPedido" v-if="sessionStore.token && !sessionStore.isAdmin"
-    v-bind:disabled="detallesPedido.length == 0">Confirmar pedido</button>
-  <div class="cafe-grid">
-    <div v-for="cafe in cafeStore.cafes" :key="cafe.id">
-      <h3>{{ cafe.variedad }}</h3>
-      <p>{{ cafe.tipo }}</p>
-      <p>{{ cafe.precio }}$</p>
-      <p>Cantidad disponible: {{ cafe.cantidadStock }}</p>
-      <button v-on:click="anadir(cafe.id, cafe.variedad, cafe.tipo)" v-bind:disabled="cafe.cantidadStock === 0"
-        v-if="sessionStore.token && !sessionStore.isAdmin">Añadir</button>
-    </div>
+  <div>
+    <v-btn color="primary" class="mb-4" @click="confirmarPedido" v-if="sessionStore.token && !sessionStore.isAdmin"
+      :disabled="detallesPedido.length === 0">
+      Confirmar pedido
+    </v-btn>
+
+    <v-row dense>
+      <v-col v-for="cafe in cafeStore.cafes" :key="cafe.id" cols="12" sm="6" md="4" lg="3">
+        <v-card outlined class="pa-4 d-flex flex-column justify-space-between" style="height: 100%;">
+          <div>
+            <v-card-title class="text-h6">{{ cafe.variedad }}</v-card-title>
+            <v-card-subtitle class="mb-2">{{ cafe.tipo }}</v-card-subtitle>
+            <v-card-text>
+              <p class="mb-1"><strong>Precio:</strong> {{ cafe.precio }} $</p>
+              <p class="mb-1">Cantidad disponible: {{ cafe.cantidadStock }}</p>
+            </v-card-text>
+          </div>
+
+          <v-card-actions>
+            <v-btn color="primary" block @click="anadir(cafe.id, cafe.variedad, cafe.tipo)"
+              :disabled="cafe.cantidadStock === 0" v-if="sessionStore.token && !sessionStore.isAdmin">
+              Añadir
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
