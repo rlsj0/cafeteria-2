@@ -4,12 +4,12 @@
     <form @submit.prevent="login">
       <div>
         <label for="email">Email</label>
-        <input type="email" id="email" v-model="email" required />
+        <input type="email" id="email" v-model="sessionStore.email" required />
       </div>
 
       <div>
         <label for="password">Contraseña</label>
-        <input type="password" id="password" v-model="password" required />
+        <input type="password" id="password" v-model="sessionStore.password" required />
       </div>
 
       <button type="submit">Iniciar sesión </button>
@@ -21,9 +21,6 @@
 
 import { ref, onMounted } from 'vue';
 import { useSessionStore } from '@/stores/sessionStore'
-
-const email = ref('');
-const password = ref('');
 
 const sessionStore = useSessionStore();
 
