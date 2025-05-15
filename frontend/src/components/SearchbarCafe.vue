@@ -1,36 +1,34 @@
 <template>
-  <div>
-    <label>Variedad: </label>
-    <input type="search" v-model="variedad" v-on:input="$emit('searchVariedad', variedad)"></input>
-  </div>
-  <div>
-    <label>Tipo: </label>
-    <input type="search" v-model="tipo" v-on:input="$emit('searchTipo', tipo)"></input>
-  </div>
-  <div>
-    <p>Ordenar por: </p>
-    <label>
-      <input type="radio" name="orderBy" value="id" v-model="orderBy" v-on:change="$emit('orderBy', orderBy)" />
-      Id
-    </label>
-    <label>
-      <input type="radio" name="orderBy" value="precio" v-model="orderBy" v-on:change="$emit('orderBy', orderBy)" />
-      Precio
-    </label>
-  </div>
-  <div>
-    <p>Orden: </p>
-    <label>
-      <input type="radio" name="orderDesc" value="true" v-model="orderDesc"
-        v-on:change="$emit('orderDesc', orderDesc)" />
-      Descendente
-    </label>
-    <label>
-      <input type="radio" name="orderDesc" value="false" v-model="orderDesc"
-        v-on:change="$emit('orderDesc', orderDesc)" />
-      Ascendente
-    </label>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <v-text-field label="Variedad" type="search" v-model="variedad" @input="$emit('searchVariedad', variedad)"
+          clearable />
+      </v-col>
+
+      <v-col cols="12" sm="6">
+        <v-text-field label="Tipo" type="search" v-model="tipo" @input="$emit('searchTipo', tipo)" clearable />
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12" sm="6">
+        <p>Ordenar por:</p>
+        <v-radio-group v-model="orderBy" @change="$emit('orderBy', orderBy)" row>
+          <v-radio label="Id" value="id" />
+          <v-radio label="Precio" value="precio" />
+        </v-radio-group>
+      </v-col>
+
+      <v-col cols="12" sm="6">
+        <p>Orden:</p>
+        <v-radio-group v-model="orderDesc" @change="$emit('orderDesc', orderDesc)" row>
+          <v-radio label="Descendente" value="true" />
+          <v-radio label="Ascendente" value="false" />
+        </v-radio-group>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -41,8 +39,8 @@ const emit = defineEmits(['searchVariedad', 'searchTipo', 'orderBy', 'orderDesc'
 
 const variedad = ref('');
 const tipo = ref('');
-const orderBy = ref('');
-const orderDesc = ref('');
+const orderBy = ref('id');
+const orderDesc = ref('false');
 
 </script>
 
