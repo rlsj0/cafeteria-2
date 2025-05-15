@@ -1,4 +1,5 @@
 <template>
+  <button v-on:click="confirmarPedido">Confirmar pedido</button>
   <div class="cafe-grid">
     <div v-for="cafe in cafeStore.cafes" :key="cafe.id">
       <h3>{{ cafe.variedad }}</h3>
@@ -14,8 +15,10 @@
 import { ref, onMounted, computed, watch, watchEffect } from 'vue';
 
 import { useCafeStore } from '@/stores/cafeStore'
+import { useSessionStore } from '@/stores/sessionStore'
 
 const cafeStore = useCafeStore();
+const sessionStore = useSessionStore();
 
 onMounted(async () => {
   cafeStore.fetchCafes();
@@ -74,6 +77,44 @@ watch(() => props.filtroOrderDesc, (nuevoValor) => {
   cafeStore.filtros.Desc = nuevoValor;
   cafeStore.fetchCafes();
 })
+
+async function confirmarPedido() {
+  if (detallesPedido.value.length == 0) {
+    // alert para que salga un aviso al usuario
+    alert("No hay cafés en el pedido.");
+    return;
+  }
+
+  const usuarioId = sessionStore.getId;
+  const token = ref('');
+  token.value = sessionStore.token;
+
+  const pedido = {
+    clienteSatisfecho: true,
+    pedidoDetallesCreateDto: detallesPedido.value.map(detalle => ({
+      cafeId: detalle.id,
+      cantidad: detalle.cantidad
+    }))
+  };
+
+  try {
+    const response = await fetch('http://localhost:8023/Pedido', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token.value}`
+      },
+      body: JSON.stringify(pedido)
+    });
+
+    alert("Pedido realizado con éxito");
+    // Acordarse de limpiar la lista de pedidos
+    detallesPedido.value = [];
+  } catch (ex) {
+    console.log(ex);
+    alert("No se pudo hacer el pedido");
+  }
+}
 
 </script>
 
