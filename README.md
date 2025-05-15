@@ -27,12 +27,12 @@ _Trabajando en el front-end..._
         - GET pedidos de usuario (`/Usuario/{id}/pedidos`)
         - Login user
         - Register user
-- [ ] Deben existir componentes para las partes específicas
-    - [ ] Header
-    - [ ] Footer
+- [X] Deben existir componentes para las partes específicas
+    - [X] Header
+    - [X] Footer
     - [X] Vistas
 - [X] Vistas compuestas por componentes, con menor lógica posible
-- [ ] Maquetación con vuetify
+- [X] Maquetación con vuetify
 
 ### Opcionales
 
