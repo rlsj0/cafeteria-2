@@ -4,6 +4,7 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import SearchbarCafe from '../components/SearchbarCafe.vue'
 import UserPrivateZoneBtn from '../components/UserPrivateZoneBtn.vue'
+import AdminPrivateZoneBtn from '../components/AdminPrivateZoneBtn.vue'
 import LogoutBtn from '../components/LogoutBtn.vue'
 import { ref } from 'vue';
 import { useSessionStore } from '@/stores/sessionStore'
@@ -24,6 +25,7 @@ const orderDesc = ref('');
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
     <!-- TODO: pensar si poner los distintos botones de sesión en el mismo componente -->
     <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
+    <AdminPrivateZoneBtn v-if="sessionStore.token && sessionStore.isAdmin" />
     <LogoutBtn v-if="sessionStore.token" />
     <Login v-if="!sessionStore.token" />
     <Register v-if="!sessionStore.token" />
