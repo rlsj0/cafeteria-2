@@ -1,25 +1,33 @@
 <template>
-  <div>
-    <!-- Usamos .prevent para prevenir que se recargue -->
-    <form @submit.prevent="register">
-      <div>
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
+  <v-container class="d-flex justify-center align-center fill-height">
+    <v-card class="pa-6 w-auto">
+      <v-card-title class="text-h5 mb-4">Registrarse</v-card-title>
+      <!-- Usamos .prevent para prevenir que se recargue -->
+      <v-form @submit.prevent="register" v-model="formValid">
+        <v-text-field v-model="email" label="Email" id="email" type="email" :rules="emailRules" />
+        <v-text-field v-model="password" label="Password" id="password" type="password" :rules="passwordRules" />
 
-      <div>
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-
-      <button type="submit">Registrarse</button>
-    </form>
-  </div>
+        <v-btn type="submit" color="primary" block class="mt-4" :disabled="!formValid">Regístrate</v-btn>
+      </v-form>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup lang="ts">
 
 import { ref, onMounted } from 'vue';
+
+const formValid = ref(false);
+
+const emailRules = [
+  (value: string) => !!value || 'E-mail is required.',
+  (value: string) => /.+@.+\..+/.test(value) || 'E-mail must be valid.',
+]
+
+const passwordRules = [
+  (value: string) => !!value || 'Password is required.',
+  (v: string) => v.length >= 6 || 'Debe tener al menos 6 caracteres.',
+]
 
 const email = ref('');
 const password = ref('');
@@ -31,29 +39,27 @@ class User {
   }
 }
 
-function register() {
+async function register() {
   console.log(email.value);
   console.log(password.value);
   console.log(JSON.stringify(new User(email.value, password.value)));
 
-  fetch('http://localhost:8023/Auth/Register', {
+  const response = await fetch('http://localhost:8023/Auth/Register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(new User(email.value, password.value))
   })
-    .then(async response => {
-      // TODO: verificar si la respuesta es Ok o no
-      // Puede ser fallo al verificar el usuario (usuario o contraseña incorrectos), o puede ser
-      // fallo que la contraseña es muy corta o el correo no es un correo.
-      // El Token me llega como texto plano. El error como un json.
-      // TODO: ojo porque si ya hay un usuario con ese correo me está llegando como string, pero si
-      // estoy enviando una contraseña muy corta me está llegando como token.
-      const token = await response.text();
-      // TODO: guardarlo
-      console.log('Token: ' + token);
-    })
+
+  if (response.ok) {
+    alert('Registro correcto!');
+    email.value = '';
+    password.value = '';
+  } else {
+    const errorData = await response.text();
+    alert('Ha habido un problema: ' + errorData);
+  }
 }
 
 </script>
