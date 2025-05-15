@@ -20,12 +20,12 @@ const orderDesc = ref('');
 
 <template>
   <div>
-    <h1>Home</h1>
+    <h1 class="text-h2">Home</h1>
+    <Login v-if="!sessionStore.token" />
+    <Register v-if="!sessionStore.token" />
     <SearchbarCafe v-on:searchVariedad="variedad = $event" v-on:searchTipo="tipo = $event"
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
     <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
-    <Login v-if="!sessionStore.token" />
-    <Register v-if="!sessionStore.token" />
     <CafeGrid :filtroVariedad="variedad" :filtroTipo="tipo" :filtroOrderBy="orderBy" :filtroOrderDesc="orderDesc" />
   </div>
 </template>
