@@ -19,16 +19,18 @@ const orderDesc = ref('');
 </script>
 
 <template>
-  <main>
-    <h1>Home</h1>
+  <div>
+    <h1 class="text-h2">Home</h1>
+    <v-row justify="space-between" align="stretch" class="my-4">
+      <v-col>
+        <Login v-if="!sessionStore.token" />
+      </v-col>
+      <v-col>
+        <Register v-if="!sessionStore.token" />
+      </v-col>
+    </v-row>
     <SearchbarCafe v-on:searchVariedad="variedad = $event" v-on:searchTipo="tipo = $event"
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
-    <!-- TODO: pensar si poner los distintos botones de sesión en el mismo componente -->
-    <UserPrivateZoneBtn v-if="sessionStore.token && !sessionStore.isAdmin" />
-    <AdminPrivateZoneBtn v-if="sessionStore.token && sessionStore.isAdmin" />
-    <LogoutBtn v-if="sessionStore.token" />
-    <Login v-if="!sessionStore.token" />
-    <Register v-if="!sessionStore.token" />
     <CafeGrid :filtroVariedad="variedad" :filtroTipo="tipo" :filtroOrderBy="orderBy" :filtroOrderDesc="orderDesc" />
-  </main>
+  </div>
 </template>
