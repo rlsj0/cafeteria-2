@@ -11,6 +11,7 @@ const id = sessionStore.getId;
 
 <template>
 
+  <router-link to="/">Home</router-link>
   <LogoutBtn />
   <h1>Zona Privada de Usuario</h1>
   <p>Usuario número: {{ sessionStore.getId }} </p>

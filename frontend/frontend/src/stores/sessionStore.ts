@@ -56,23 +56,23 @@ export const useSessionStore = defineStore('session', () => {
       body: JSON.stringify(user),
     })
 
-    // TODO: verificar si la respuesta es Ok o no:
-    // Puede ser fallo al verificar el usuario (usuario o contraseña incorrectos), o puede ser
-    // fallo que la contraseña es muy corta o el correo no es un correo.
-    // El Token me llega como texto plano. El error como un json.
-    // if(!response.ok)...
+    if (response.ok) {
 
-    // TODO: es necesario meter lo esta parte en un try catch y tal
-    // (no se debería intentar set el token si falla)
+      // TODO: es necesario meter lo esta parte en un try catch y tal
+      // (no se debería intentar set el token si falla)
 
-    sessionStorage.setItem('email', email.value)
-    // El token no es json sino texto plano
-    const newToken = await response.text();
-    // console.log('Token: ' + newToken);
-    // const decoded = jwtDecode(newToken);
-    // console.log('Decodificado: ', decoded);
+      sessionStorage.setItem('email', email.value)
+      // El token no es json sino texto plano
+      const newToken = await response.text();
 
-    setToken(newToken);
+      setToken(newToken);
+    } else if (response.status === 401) {
+      const textoError = await response.text();
+      alert("Usuario o contraseña incorrectos: " + textoError);
+    } else {
+      const textoError = await response.text();
+      alert("Ha habido un error.")
+    }
   }
 
   function logout() {
