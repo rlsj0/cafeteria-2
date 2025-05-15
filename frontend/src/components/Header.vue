@@ -10,7 +10,7 @@ const sessionStore = useSessionStore();
 </script>
 
 <template>
-  <header>
+  <v-app-bar>
     <router-link to="/">
       <h1>Cafetería 2</h1>
     </router-link>
@@ -19,5 +19,5 @@ const sessionStore = useSessionStore();
       <AdminPrivateZoneBtn v-if="sessionStore.token && sessionStore.isAdmin" />
       <LogoutBtn v-if="sessionStore.token" />
     </nav>
-  </header>
+  </v-app-bar>
 </template>
