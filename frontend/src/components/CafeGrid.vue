@@ -6,8 +6,8 @@
     </v-btn>
 
     <v-row dense>
-      <v-col v-for="cafe in cafeStore.cafes" :key="cafe.id" cols="12" sm="6" md="4" lg="3">
-        <v-card outlined class="pa-4 d-flex flex-column justify-space-between" style="height: 100%;">
+      <v-col v-for="cafe in cafeStore.cafes" :key="cafe.id" class="d-flex justify-center">
+        <v-card outlined class="pa-4">
           <div>
             <v-card-title class="text-h6">{{ cafe.variedad }}</v-card-title>
             <v-card-subtitle class="mb-2">{{ cafe.tipo }}</v-card-subtitle>
