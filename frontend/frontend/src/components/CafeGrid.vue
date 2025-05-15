@@ -5,7 +5,9 @@
       <h3>{{ cafe.variedad }}</h3>
       <p>{{ cafe.tipo }}</p>
       <p>{{ cafe.precio }}$</p>
-      <button v-on:click="anadir(cafe.id, cafe.variedad, cafe.tipo)">Añadir</button>
+      <p>Cantidad disponible: {{ cafe.cantidadStock }}</p>
+      <button v-on:click="anadir(cafe.id, cafe.variedad, cafe.tipo)"
+        v-bind:disabled="cafe.cantidadStock === 0">Añadir</button>
     </div>
   </div>
 </template>
