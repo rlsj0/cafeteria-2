@@ -7,8 +7,6 @@ o ver sus pedidos ya hechos. El admin puede ver todos los usuarios y
 los pedidos, y crear y modificar productos (_esto último no
 implementado en la web pero sí en la API_).
 
-_Trabajando en el front-end..._
-
 ## Requisitos del frontend
 
 ### Obligatorios
