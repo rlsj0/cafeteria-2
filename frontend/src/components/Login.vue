@@ -20,7 +20,7 @@
 <script setup lang="ts">
 
 import { ref, onMounted } from 'vue';
-import { useSessionStore } from '@/stores/sessionStore'
+import { useSessionStore } from '../stores/sessionStore'
 
 const sessionStore = useSessionStore();
 
@@ -38,8 +38,10 @@ const rulesPassword = [
 
 // async await para que funcione
 async function login() {
-  sessionStore.email = email.value;
-  sessionStore.password = password.value;
+  // sessionStore.email = email.value;
+  // sessionStore.password = password.value;
+  //
+  // console.log(email.value);
 
   await sessionStore.login();
 }
