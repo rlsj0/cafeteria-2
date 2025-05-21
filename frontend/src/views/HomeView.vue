@@ -19,7 +19,7 @@ const orderDesc = ref('');
 </script>
 
 <template>
-  <div>
+  <v-container fluid>
     <h1 class="text-h2">Home</h1>
     <v-row justify="space-between" align="stretch" class="my-4">
       <v-col>
@@ -32,5 +32,5 @@ const orderDesc = ref('');
     <SearchbarCafe v-on:searchVariedad="variedad = $event" v-on:searchTipo="tipo = $event"
       v-on:orderBy="orderBy = $event" v-on:orderDesc="orderDesc = $event" />
     <CafeGrid :filtroVariedad="variedad" :filtroTipo="tipo" :filtroOrderBy="orderBy" :filtroOrderDesc="orderDesc" />
-  </div>
+  </v-container>
 </template>

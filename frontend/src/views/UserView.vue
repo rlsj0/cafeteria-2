@@ -11,10 +11,12 @@ const id = sessionStore.getId;
 
 <template>
 
-  <h1 class="text-h3 pa-4">Zona Privada de Usuario</h1>
-  <p class="text-subtitle-1">Usuario número: {{ sessionStore.getId }} </p>
-  <p class="text-subtitle-1">Correo: {{ sessionStore.getEmail }} </p>
-  <h3 class="text-h5 pa-4">Listado de pedidos: </h3>
-  <ListadoPedidosUsuario v-bind:identificador="id" />
+  <v-container fluid>
+    <h1 class="text-h3 pa-4">Zona Privada de Usuario</h1>
+    <p class="text-subtitle-1">Usuario número: {{ sessionStore.getId }} </p>
+    <p class="text-subtitle-1">Correo: {{ sessionStore.getEmail }} </p>
+    <h3 class="text-h5 pa-4">Listado de pedidos: </h3>
+    <ListadoPedidosUsuario v-bind:identificador="id" />
+  </v-container>
 
 </template>
